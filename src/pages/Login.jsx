@@ -28,7 +28,7 @@ export default function Login({ user: loggedInUser }) {
   };
 
   useEffect(() => {
-    document.title = "Login - Touch";
+    document.title = "Login - Hire Hut";
   }, []);
 
   if (loggedInUser) return <Navigate to={ROUTES.DASHBOARD} />;
