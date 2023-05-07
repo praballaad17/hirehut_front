@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   emailCheck,
   registerUser,
@@ -16,33 +16,9 @@ const AuthSignup = ({ user: User }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isCheck, setIsCheck] = useState(0);
+  const navigate = useNavigate();
 
   const { addToast, setLoading } = useUser();
-
-  const [error, setError] = useState("");
-  const isInvalid = password === "" || email === "";
-
-  const handleSignUp = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-    try {
-      await registerUser(username, fullName, email, password);
-      addToast(`${username} is registered`);
-      setLoading(false);
-    } catch (error) {
-      console.log(error.response);
-      setLoading(false);
-      setFullName("");
-      setEmail("");
-      setPassword("");
-      setError(error.message);
-    }
-    // } else {
-    //   setUsername('');
-    //   setError('That username is already taken, please try another.');
-    // }
-  };
-
   const checkEmail = async () => {
     const res = await emailCheck(email);
     console.log(res.status, res);
@@ -74,6 +50,7 @@ const AuthSignup = ({ user: User }) => {
     } else if (isCheck === 1) {
       const res = await registerUser(username, fullName, email, password);
       addToast(`${username} is added`);
+      window.location.href = ROUTES.DASHBOARD;
     }
   };
 

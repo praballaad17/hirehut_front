@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from "react";
 import * as ROUTES from "../../constants/routes";
 import { login } from "../../services/authenticationServices";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import { useUser } from "../../Context/userContext";
 
 const AuthLogin = ({ user: User }) => {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { addToast } = useUser();
-
-  const [error, setError] = useState("");
-  const isInvalid = password === "" || emailAddress === "";
+  const { addToast, setLoading } = useUser();
 
   const handleLogin = async (e) => {
+    console.log("login");
     e.preventDefault();
     setLoading(true);
     try {
       await login(emailAddress, password);
       setLoading(false);
-      navigate(ROUTES.HOME);
+      console.log(ROUTES.HOME);
+      // navigate(ROUTES.DASHBOARD);
+      window.location.href = ROUTES.DASHBOARD;
     } catch (error) {
       // setEmailAddress("");
       setPassword("");
@@ -30,12 +29,6 @@ const AuthLogin = ({ user: User }) => {
   };
 
   const handleForgotPassword = () => {};
-
-  useEffect(() => {
-    document.title = "Login - Touch";
-    setPassword("");
-    setEmailAddress("");
-  }, []);
 
   if (User) return <Navigate to={ROUTES.DASHBOARD} />;
 

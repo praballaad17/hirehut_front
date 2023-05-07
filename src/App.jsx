@@ -24,8 +24,6 @@ import ForgotPass from "./pages/Authenticate/ForgotPass";
 export default function App() {
   const { user, jwt } = useAuthListener();
 
-  console.log(user);
-
   return (
     <>
       <UserProvider user={user}>
