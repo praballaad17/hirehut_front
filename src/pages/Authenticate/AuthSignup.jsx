@@ -1,33 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import "../../css/authenticationstyle.css";
-import { registerUser } from "../../services/authenticationServices";
+import {
+  emailCheck,
+  registerUser,
+} from "../../services/authenticationServices";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { DASHBOARD } from "../../constants/routes";
 import { useUser } from "../../Context/userContext";
+import * as ROUTES from "../../constants/routes";
 
 const AuthSignup = ({ user: User }) => {
   const [username, setUsername] = useState("");
   const [fullName, setFullName] = useState("");
-  const [emailAddress, setEmailAddress] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isCheck, setIsCheck] = useState(0);
 
   const { addToast, setLoading } = useUser();
 
   const [error, setError] = useState("");
-  const isInvalid = password === "" || emailAddress === "";
+  const isInvalid = password === "" || email === "";
 
   const handleSignUp = async (event) => {
     event.preventDefault();
     setLoading(true);
     try {
-      await registerUser(username, fullName, emailAddress, password);
+      await registerUser(username, fullName, email, password);
       addToast(`${username} is registered`);
       setLoading(false);
     } catch (error) {
       console.log(error.response);
       setLoading(false);
       setFullName("");
-      setEmailAddress("");
+      setEmail("");
       setPassword("");
       setError(error.message);
     }
@@ -36,89 +42,135 @@ const AuthSignup = ({ user: User }) => {
     //   setError('That username is already taken, please try another.');
     // }
   };
-  useEffect(() => {
-    document.title = "Sign Up - Touch";
-    setFullName("");
-    setEmailAddress("");
-    setPassword("");
-    setError("");
-  }, []);
+
+  const checkEmail = async () => {
+    const res = await emailCheck(email);
+    console.log(res.status, res);
+    if (res.status === 400) {
+      console.log(res);
+      addToast(`${email} is already added`, true);
+    } else {
+      setIsCheck(1);
+    }
+  };
+  // useEffect(() => {
+  //   document.title = "Sign Up - Touch";
+  //   setFullName("");
+  //   setEmail("");
+  //   setPassword("");
+  //   setError("");
+  // }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (isCheck === 0) {
+      // if(email.length === 0 ) {
+
+      // }
+      try {
+        checkEmail();
+      } catch (error) {}
+    } else if (isCheck === 1) {
+      const res = await registerUser(username, fullName, email, password);
+      addToast(`${username} is added`);
+    }
+  };
 
   if (User) return <Navigate to={DASHBOARD} />;
+
   return (
     <>
-      <div className="form-container sign-in-container">
-        <form className="auth-form" onSubmit={handleSignUp} method="POST">
-          <h1 className="auth-heading">Create Account</h1>
-          <div className="social-container">
-            <a href="#" className="social">
-              <i className="fa fa-facebook"></i>
-            </a>
-            <a href="#" className="social">
-              <i className="fa fa-google"></i>
-            </a>
-            <a href="#" className="social">
-              <i className="fa fa-linkedin"></i>
-            </a>
-          </div>
-          <span className="auth-span">or use your email for registration</span>
-          {error && <p className="login__box--error">{error}</p>}
-          <input
-            className="auth-input"
-            type="text"
-            name="username"
-            placeholder="Userame"
-            onChange={({ target }) => setUsername(target.value)}
-            value={username}
-          />
-          <input
-            className="auth-input"
-            type="text"
-            name="fullname"
-            placeholder="Full Name"
-            onChange={({ target }) => setFullName(target.value)}
-            value={fullName}
-          />
-          <input
-            className="auth-input"
-            type="email"
-            name="email"
-            placeholder="Email"
-            onChange={({ target }) => setEmailAddress(target.value)}
-            value={emailAddress}
-          />
-          <input
-            className="auth-input"
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={({ target }) => setPassword(target.value)}
-            value={password}
-          />
-          <button
-            type="submit"
-            className={`auth-btn
-            ${isInvalid && "u-opacity-50"}`}
-            disabled={isInvalid}
-          >
-            SignUp
-          </button>
-        </form>
-      </div>
-      <div className="overlay-container">
-        <div className="overlay">
-          <div className="overlay-panel overlay-right">
-            <h1 className="auth-heading">Welcome Back!</h1>
-            <p className="auth-p">
-              To keep connected with us please login with your personal info
-            </p>
-
-            <Link to="/authentication/login">
-              <button className="ghost" id="signIn">
-                Sign In
-              </button>
-            </Link>
-          </div>
+      <div class="flex justify-center items-center h-screen">
+        <div class="bg-white p-10 rounded-lg shadow-lg w-1/3">
+          <h2 class="text-2xl font-bold mb-10">Sign Up</h2>
+          {isCheck === 0 ? (
+            <div>Create an account or sign in.</div>
+          ) : (
+            <div>Add Details</div>
+          )}
+          <form>
+            {isCheck === 0 ? (
+              <div class="mb-5">
+                <label for="email" class="block text-gray-700 font-bold mb-2">
+                  Email
+                </label>
+                <input
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="text"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  class="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+            {isCheck === 1 ? (
+              <>
+                <div class="mb-5">
+                  <label
+                    for="username"
+                    class="block text-gray-700 font-bold mb-2"
+                  >
+                    Username
+                  </label>
+                  <input
+                    onChange={(e) => setUsername(e.target.value)}
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    class="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div class="mb-5">
+                  <label for="name" class="block text-gray-700 font-bold mb-2">
+                    Name
+                  </label>
+                  <input
+                    onChange={(e) => setFullName(e.target.value)}
+                    type="text"
+                    id="name"
+                    name="Name"
+                    placeholder="Enter your Name"
+                    class="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <div class="mb-5">
+                  <label class="block text-gray-700 font-bold mb-2">
+                    Password
+                  </label>
+                  <input
+                    onChange={(e) => setPassword(e.target.value)}
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    class="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
+            <div class="flex justify-between items-center mb-5">
+              <Link
+                to="/authentication/login"
+                class="text-blue-500 hover:text-blue-600"
+              >
+                Log In
+              </Link>
+            </div>
+            <button
+              type="submit"
+              class="bg-blue-500 w-full text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300 ease-in-out focus:outline-none focus:ring focus:ring-blue-300"
+              onClick={handleSubmit}
+            >
+              Sign Up <FontAwesomeIcon className="ms-3" icon={faArrowRight} />
+            </button>
+          </form>
         </div>
       </div>
     </>

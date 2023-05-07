@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import "../../css/authenticationstyle.css";
 import { Link } from "react-router-dom";
 import {
   changePassword,

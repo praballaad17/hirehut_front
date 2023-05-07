@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from "react";
-import "../../css/authenticationstyle.css";
 import * as ROUTES from "../../constants/routes";
 import { login } from "../../services/authenticationServices";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../../Context/userContext";
 
 const AuthLogin = ({ user: User }) => {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { addToast } = useUser();
 
   const [error, setError] = useState("");
   const isInvalid = password === "" || emailAddress === "";
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
     setLoading(true);
     try {
       await login(emailAddress, password);
       setLoading(false);
-      window.location = "/";
+      navigate(ROUTES.HOME);
     } catch (error) {
-      setEmailAddress("");
+      // setEmailAddress("");
       setPassword("");
-      setError(error.message);
+      addToast(error.message, true);
       setLoading(false);
     }
   };
@@ -39,65 +41,56 @@ const AuthLogin = ({ user: User }) => {
 
   return (
     <>
-      <div className="form-container sign-in-container">
-        <form className="auth-form" onSubmit={handleLogin} method="POST">
-          <h1 className="auth-heading">Sign In</h1>
-          <div className="social-container">
-            <a href="#" className="social">
-              <i className="fa fa-facebook"></i>
-            </a>
-            <a href="#" className="social">
-              <i className="fa fa-google"></i>
-            </a>
-            <a href="#" className="social">
-              <i className="fa fa-linkedin"></i>
-            </a>
-          </div>
-          <span className="auth-span">or use your account</span>
-
-          {error && <p className="login__box--error">{error}</p>}
-          <input
-            className="auth-input"
-            type="email"
-            name="email"
-            placeholder="Email"
-            onChange={({ target }) => setEmailAddress(target.value)}
-            value={emailAddress}
-          />
-          <input
-            className="auth-input"
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={({ target }) => setPassword(target.value)}
-            value={password}
-          />
-          <Link to={ROUTES.FORGOTPASS}>Forgot Your Password</Link>
-
-          <button
-            disabled={isInvalid}
-            type="submit"
-            className={`auth-btn
-            ${isInvalid && "u-opacity-50"}`}
-          >
-            Sign In
-          </button>
-        </form>
-      </div>
-      <div className="overlay-container">
-        <div className="overlay">
-          <div className="overlay-panel overlay-right">
-            <h1 className="auth-heading">Hello, Friend!</h1>
-            <p className="auth-p">
-              Enter your details and start journey with us
-            </p>
-
-            <Link to="/authentication/signup">
-              <button className="ghost" id="signUp">
-                Sign Up
-              </button>
-            </Link>
-          </div>
+      <div class="flex justify-center items-center h-screen ">
+        <div class="bg-white p-10 rounded-lg shadow-lg">
+          <h2 class="text-2xl font-bold mb-10">Login</h2>
+          <form>
+            <div class="mb-5">
+              <label for="email" class="block text-gray-700 font-bold mb-2">
+                Email/Username
+              </label>
+              <input
+                value={emailAddress}
+                onChange={(e) => setEmailAddress(e.target.value)}
+                type="text"
+                id="email"
+                name="email"
+                placeholder="Enter your email or username"
+                class="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <div class="mb-5">
+              <label for="password" class="block text-gray-700 font-bold mb-2">
+                Password
+              </label>
+              <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                class="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
+              />
+            </div>
+            <div class="flex justify-between items-center mb-5">
+              <a href="#" class="text-blue-500 hover:text-blue-600">
+                Forgot Password?
+              </a>
+              <Link
+                to="/authentication/signup"
+                class="text-blue-500 hover:text-blue-600 ms-24"
+              >
+                Not registered? Sign In
+              </Link>
+            </div>
+            <button
+              onClick={handleLogin}
+              class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300 ease-in-out focus:outline-none focus:ring focus:ring-blue-300"
+            >
+              Login
+            </button>
+          </form>
         </div>
       </div>
     </>
