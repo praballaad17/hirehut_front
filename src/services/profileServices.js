@@ -1,13 +1,18 @@
 import axios from "axios";
 
-const apiEndpoint = import.meta.env.VITE_API_URL + "/party";
+const apiEndpoint = import.meta.env.VITE_API_URL + "/profile";
 
-export const createParty = async (party, userId) => {
+export const updateProfile = async (form, userId) => {
   try {
-    const response = await axios.post(`${apiEndpoint}/addParty`, {
-      party,
-      userId,
-    });
+    const response = await axios.post(
+      `${apiEndpoint}/update-profile/${userId}`,
+      form,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     return error;
@@ -25,10 +30,10 @@ export const getPartyByUserId = async (userId, partyType) => {
   }
 };
 
-export const getPartyTransactions = async (partyId) => {
+export const getUserProfile = async (userId) => {
   try {
     const response = await axios.get(
-      `${apiEndpoint}/partyTransactions/${partyId}`
+      `${apiEndpoint}/get-user-profile/${userId}`
     );
     return response.data;
   } catch (error) {

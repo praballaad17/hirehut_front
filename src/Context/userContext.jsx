@@ -5,6 +5,7 @@ import React, {
   createContext,
   useCallback,
 } from "react";
+import { getUserProfile } from "../services/profileServices";
 // import { getUserByUserId } from "../services/authenticationServices";
 
 const UserContext = createContext();
@@ -13,23 +14,27 @@ export function useUser() {
   return useContext(UserContext);
 }
 export function UserProvider({ user, children }) {
+  const [profile, setProfile] = useState();
   const [toastList, setToastList] = useState([]);
   const [userDetails, setUserDetails] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const getUser = async () => {
-  //     try {
-  //       const res = await getUserByUserId(user.id);
-  //       setUserDetails(res);
-  //     } catch (error) {
-  //       addToast("User Not Found", true);
-  //       console.log(error);
-  //     }
-  //   };
+  useEffect(() => {
+    if (user?.id) {
+      getUserProfileContext();
+    }
+  }, [user?.id]);
 
-  //   getUser();
-  // }, [user?.id]);
+  const getUserProfileContext = async () => {
+    try {
+      const res = await getUserProfile(user.id);
+      console.log(res);
+      setProfile(res);
+    } catch (error) {
+      addToast("User Not Found", true);
+      console.log(error);
+    }
+  };
 
   const addToast = (message, isError = false) => {
     setToastList([
@@ -55,6 +60,8 @@ export function UserProvider({ user, children }) {
     removeToast,
     loading,
     setLoading,
+    profile,
+    getUserProfileContext,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

@@ -9,9 +9,13 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { HOME, MESSAGES, PROFILE, PROFILEOVERVIEW } from "../constants/routes";
 import { logout } from "../services/authenticationServices";
+import { useUser } from "../Context/userContext";
 
 export default function NavBar() {
+  const { profile } = useUser();
   const [open, setOpen] = useState(false);
+
+  console.log(profile);
   return (
     <nav className="bg-white shadow-lg fixed w-full">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -28,21 +32,26 @@ export default function NavBar() {
               alt="Hire Hut"
             />
           </Link>
-          <div>
-            <div className="inline-flex px-3 hover:bg-slate-300 h-full flex items-center mx-2">
+          <div className="flex items-center">
+            <div className="inline-flex px-3 hover:bg-slate-300 h-full  items-center mx-2">
               <FontAwesomeIcon icon={faBell} />
             </div>
             <Link
               to={MESSAGES}
-              className="inline-flex px-3 hover:bg-slate-300 h-full flex items-center mx-2"
+              className="inline-flex px-3 hover:bg-slate-300 h-full  items-center mx-2"
             >
               <FontAwesomeIcon icon={faMessage} />
             </Link>
-            <div className="relative inline-block mt-4 lg:mt-0 text-black">
+            <div className="relative inline-block  text-black my-auto">
               <button
                 onClick={() => setOpen(!open)}
-                className="inline-flex items-center justify-center w-full rounded-full border border-black hover:blue-400 hover:blue-400 px-4 py-2 focus:outline-none"
+                className="inline-flex items-center justify-center w-full  hover:bg-blue-100 border rounded-md px-4 py-1 focus:outline-none"
               >
+                <img
+                  src={profile?.profileUrl}
+                  alt="profile"
+                  className="w-10 h-10 rounded-full object-cover"
+                />
                 <svg
                   className="fill-current h-4 w-4 ml-2 -mr-1"
                   xmlns="http://www.w3.org/2000/svg"

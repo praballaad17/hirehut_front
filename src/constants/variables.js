@@ -57,3 +57,7 @@ export const RACE = [
   { data: "White", key: "wh" },
   { data: "Prefer not to say", key: "ns" },
 ];
+
+export const FORM = {
+  img: {},
+};

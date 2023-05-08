@@ -1,16 +1,42 @@
 import React, { useState } from "react";
-import { EXPFORM, GENDER, PRONOUN, RACE } from "../../constants/variables";
+import {
+  EXPFORM,
+  FORM,
+  GENDER,
+  PRONOUN,
+  RACE,
+} from "../../constants/variables";
+import { updateProfile } from "../../services/profileServices";
+import { useUser } from "../../Context/userContext";
 
 export default function ProfileBox() {
-  const [image, setImage] = React.useState(null);
+  const { user, loading, setLoading } = useUser();
+
+  const [image, setImage] = useState("");
   const [isexpForm, setIsExpFrom] = useState(false);
   const [expForm, setExpFrom] = useState(EXPFORM);
   const [iseduForm, setIsEduFrom] = useState(false);
   const [eduForm, setEduFrom] = useState(EXPFORM);
+  const [form, setForm] = useState(FORM);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
+    setLoading(true);
     if (e.target.files && e.target.files[0]) {
-      setImage(URL.createObjectURL(e.target.files[0]));
+      const img = e.target.files[0];
+
+      let formdata = new FormData();
+      formdata.append("img", img);
+
+      try {
+        const res = await updateProfile(formdata, user.id);
+        console.log(res);
+        setForm({ ...form, img: img });
+        setImage(URL.createObjectURL(img));
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
     }
   };
 
@@ -39,14 +65,23 @@ export default function ProfileBox() {
             <input className="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500" />
           </div>
           <div className="flex items-center m-4">
-            <div className="inline-block w-20 h-20 rounded-full border-2 border-slate-500 mr-5"></div>
-            <label htmlFor="image-upload" className="relative cursor-pointer">
-              <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow outline-none focus:outline-none">
-                Upload Image
-              </button>
+            {form.img && image ? (
+              <img
+                className="w-20 h-20 rounded-full mr-5 object-cover"
+                src={image}
+              />
+            ) : (
+              <div className="inline-block w-20 h-20 rounded-full border-2 border-slate-500 mr-5"></div>
+            )}
+            <label
+              htmlFor="image-upload"
+              className="relative cursor-pointer bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow outline-none focus:outline-none"
+            >
+              {loading ? "Uploading" : "Upload Image"}
               <input
                 id="image-upload"
                 type="file"
+                accept="image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp"
                 className="sr-only"
                 onChange={handleImageChange}
               />
