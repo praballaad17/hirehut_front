@@ -1,5 +1,5 @@
 export const HOME = "/";
-export const DASHBOARD = "/dashboard";
+export const DASHBOARD = "/";
 export const REPORTPAGE = "/dashboard/reports";
 
 export const AUTHENTICATION = "/authentication/*";
