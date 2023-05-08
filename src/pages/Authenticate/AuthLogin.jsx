@@ -34,12 +34,12 @@ const AuthLogin = ({ user: User }) => {
 
   return (
     <>
-      <div class="flex justify-center items-center h-screen ">
-        <div class="bg-white p-10 rounded-lg shadow-lg">
-          <h2 class="text-2xl font-bold mb-10">Login</h2>
+      <div className="flex justify-center items-center h-screen ">
+        <div className="bg-white p-10 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-10">Login</h2>
           <form>
-            <div class="mb-5">
-              <label for="email" class="block text-gray-700 font-bold mb-2">
+            <div className="mb-5">
+              <label for="email" className="block text-gray-700 font-bold mb-2">
                 Email/Username
               </label>
               <input
@@ -49,11 +49,14 @@ const AuthLogin = ({ user: User }) => {
                 id="email"
                 name="email"
                 placeholder="Enter your email or username"
-                class="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
+                className="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
               />
             </div>
-            <div class="mb-5">
-              <label for="password" class="block text-gray-700 font-bold mb-2">
+            <div className="mb-5">
+              <label
+                for="password"
+                className="block text-gray-700 font-bold mb-2"
+              >
                 Password
               </label>
               <input
@@ -63,23 +66,23 @@ const AuthLogin = ({ user: User }) => {
                 id="password"
                 name="password"
                 placeholder="Enter your password"
-                class="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
+                className="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
               />
             </div>
-            <div class="flex justify-between items-center mb-5">
-              <a href="#" class="text-blue-500 hover:text-blue-600">
+            <div className="flex justify-between items-center mb-5">
+              <a href="#" className="text-blue-500 hover:text-blue-600">
                 Forgot Password?
               </a>
               <Link
                 to="/authentication/signup"
-                class="text-blue-500 hover:text-blue-600 ms-24"
+                className="text-blue-500 hover:text-blue-600 ms-24"
               >
                 Not registered? Sign In
               </Link>
             </div>
             <button
               onClick={handleLogin}
-              class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300 ease-in-out focus:outline-none focus:ring focus:ring-blue-300"
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300 ease-in-out focus:outline-none focus:ring focus:ring-blue-300"
             >
               Login
             </button>

@@ -8,6 +8,7 @@ export const SIGN_UP = "/signup";
 export const FORGOTPASS = "/authentication/forgot-password";
 
 export const PROFILE = "/profile";
+export const PROFILEOVERVIEW = "/profile/overview";
 export const NOT_FOUND = "/not-found";
 export const MESSAGES = "/messages";
 export const NOTIFIACATION = "/notification";

@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { HOME, MESSAGES } from "../constants/routes";
+import { HOME, MESSAGES, PROFILE, PROFILEOVERVIEW } from "../constants/routes";
 import { logout } from "../services/authenticationServices";
 
 export default function NavBar() {
@@ -38,12 +38,11 @@ export default function NavBar() {
             >
               <FontAwesomeIcon icon={faMessage} />
             </Link>
-            <div className="relative inline-block mt-4 lg:mt-0 text-blue-200">
+            <div className="relative inline-block mt-4 lg:mt-0 text-black">
               <button
                 onClick={() => setOpen(!open)}
-                className="inline-flex items-center justify-center w-full rounded-md border border-blue-400 hover:text-white hover:border-white px-4 py-2 focus:outline-none"
+                className="inline-flex items-center justify-center w-full rounded-full border border-black hover:blue-400 hover:blue-400 px-4 py-2 focus:outline-none"
               >
-                <span>Dropdown</span>
                 <svg
                   className="fill-current h-4 w-4 ml-2 -mr-1"
                   xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +52,7 @@ export default function NavBar() {
                 </svg>
               </button>
               {open ? (
-                <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-3">
                   <div
                     className="py-1"
                     role="menu"
@@ -61,7 +60,10 @@ export default function NavBar() {
                     aria-labelledby="options-menu"
                   >
                     <span>Profile</span>
-                    <Link className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white">
+                    <Link
+                      to={PROFILEOVERVIEW}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white"
+                    >
                       Edit Profile
                     </Link>
                     <Link className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white">

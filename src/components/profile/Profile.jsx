@@ -12,7 +12,7 @@ export default function Profile() {
   console.log(type, location.pathname);
 
   return (
-    <div className="flex flex-col h-full justify-items-center p-8 pt-20 ">
+    <div className="flex flex-col h-full justify-items-center p-8 ">
       <h1 className="text-4xl">Edit Your Profile</h1>
       <div className="flex flex-col">
         <div>
