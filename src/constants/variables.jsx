@@ -167,6 +167,13 @@ export const SUPPLEMENTPAY = [
   { code: "OT", name: "Other" },
 ];
 
+export const PAYTYPE = [
+  "range",
+  "strting amount",
+  "maximum amount",
+  "exact amount",
+];
+
 export const BENEFITS = [
   { code: "HI", name: "Health insurance" },
   { code: "PF", name: "Provident Fund" },
@@ -185,6 +192,10 @@ export const BENEFITS = [
 
 export const JOBDETAILS = {
   title: "",
-  jobType: [],
+  jobType: new Set(),
+  shift: new Set(),
+  benefits: new Set(),
+  supplementPay: new Set(),
   opening: 0,
+  detailPDF: "",
 };
