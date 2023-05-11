@@ -61,3 +61,25 @@ export const RACE = [
 export const FORM = {
   img: {},
 };
+
+export const EMPLOYEERROLES = ["founder", "hiring manager", "team member"];
+
+export const NOOFEMPLOYEE = [
+  { key: "AA", data: "1-10" },
+  { key: "BB", data: "11-50" },
+  { key: "CC", data: "51-100" },
+  { key: "DD", data: "101-500" },
+  { key: "EE", data: "501-1000" },
+  { key: "FF", data: "1001-5000" },
+  { key: "GG", data: "5000+" },
+];
+
+export const COMPANYDETAILS = {
+  name: "",
+  role: "",
+  website: "",
+  location: "",
+  employeecount: "",
+  description: "",
+  pitch: "",
+};

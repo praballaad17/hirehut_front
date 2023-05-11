@@ -2,8 +2,7 @@ import React, { Suspense } from "react";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { PROFILENAV } from "../../constants/variables";
 import ProfileBox from "./ProfileBox";
-import Resume from "./Resume";
-import MainLoader from "../loader/mainLoader";
+import MainLoader from "../../components/loader/mainLoader";
 
 export default function Profile() {
   let location = useLocation();
@@ -37,7 +36,7 @@ export default function Profile() {
           <Suspense fallback={<MainLoader />}>
             <Routes>
               <Route path="/overview" element={<ProfileBox />} />
-              <Route path="/resume" element={<Resume />} />
+              {/* <Route path="/resume" element={<Resume />} /> */}
             </Routes>
           </Suspense>
         </div>

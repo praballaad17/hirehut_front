@@ -51,7 +51,7 @@ export default function ProfileBox() {
   };
 
   return (
-    <div className="border-2 border-slate-400 w-90 h-full p-5 mt-5">
+    <div className="border-2 border-slate-300 w-90 h-full p-5 mt-5">
       <div className="border-b-2 border-slate-300 flex pb-5">
         <div className="w-1/3">
           <h2 className="text-xl font-semibold">About</h2>

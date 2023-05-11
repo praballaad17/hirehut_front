@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import { UserProvider } from "./Context/userContext";
 import ToastBox from "./components/Toast/ToastBox";
 import ForgotPass from "./pages/Authenticate/ForgotPass";
+import EmployerDash from "./pages/EmployerDash";
 
 // const Login = lazy(() => import('./pages/Login'));
 // const SignUp = lazy(() => import('./pages/Signup'));
@@ -23,7 +24,7 @@ import ForgotPass from "./pages/Authenticate/ForgotPass";
 
 export default function App() {
   const { user, jwt } = useAuthListener();
-
+  console.log(user);
   return (
     <>
       <UserProvider user={user}>
@@ -35,10 +36,17 @@ export default function App() {
                 element={<Authentication user={user} />}
                 children={[AuthSignup, AuthLogin, ForgotPass]}
               />
-              <Route
-                path={`${ROUTES.HOME}*`}
-                element={<Dashboard user={user} />}
-              />
+              {user?.isEmployeer ? (
+                <Route
+                  path={`${ROUTES.HOME}*`}
+                  element={<EmployerDash user={user} />}
+                />
+              ) : (
+                <Route
+                  path={`${ROUTES.HOME}*`}
+                  element={<Dashboard user={user} />}
+                />
+              )}
               {/* <Route path="*" element={<NotFound />} /> */}
             </Routes>
           </Suspense>

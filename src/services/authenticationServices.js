@@ -36,13 +36,20 @@ export const login = async (usernameOrEmail, password, authToken) => {
 //  * @param {string} password A user's password
 //  * @returns {object} The user object
 //  */
-export const registerUser = async (username, fullName, email, password) => {
+export const registerUser = async (
+  username,
+  fullName,
+  email,
+  password,
+  isEmployeer
+) => {
   try {
     const response = await axios.post(`${apiEndpoint}/register`, {
       email,
       fullName,
       username,
       password,
+      isEmployeer,
     });
     console.log(response.data.token);
     localStorage.setItem(tokenKey, response.data.token);
