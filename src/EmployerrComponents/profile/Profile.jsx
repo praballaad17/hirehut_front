@@ -3,6 +3,7 @@ import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { PROFILENAV } from "../../constants/variables";
 import ProfileBox from "./ProfileBox";
 import MainLoader from "../../components/loader/mainLoader";
+import Branches from "./Branches";
 
 export default function Profile() {
   let location = useLocation();
@@ -28,7 +29,7 @@ export default function Profile() {
                 type === PROFILENAV.RESUME ? "border-b-2" : ""
               } border-slate-600`}
             >
-              <Link to="/profile/resume">Resume / CV</Link>
+              <Link to="/profile/braches">Branches</Link>
             </li>
           </ul>
         </div>
@@ -36,7 +37,7 @@ export default function Profile() {
           <Suspense fallback={<MainLoader />}>
             <Routes>
               <Route path="/overview" element={<ProfileBox />} />
-              {/* <Route path="/resume" element={<Resume />} /> */}
+              <Route path="/braches" element={<Branches />} />
             </Routes>
           </Suspense>
         </div>

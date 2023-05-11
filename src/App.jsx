@@ -17,6 +17,7 @@ import { UserProvider } from "./Context/userContext";
 import ToastBox from "./components/Toast/ToastBox";
 import ForgotPass from "./pages/Authenticate/ForgotPass";
 import EmployerDash from "./pages/EmployerDash";
+import { DataProvider } from "./Context/DataContext";
 
 // const Login = lazy(() => import('./pages/Login'));
 // const SignUp = lazy(() => import('./pages/Signup'));
@@ -28,32 +29,34 @@ export default function App() {
   return (
     <>
       <UserProvider user={user}>
-        <Router>
-          <Suspense fallback={<MainLoader />}>
-            <Routes>
-              <Route
-                path={ROUTES.AUTHENTICATION}
-                element={<Authentication user={user} />}
-                children={[AuthSignup, AuthLogin, ForgotPass]}
-              />
-              {user?.isEmployeer ? (
+        <DataProvider user={user}>
+          <Router>
+            <Suspense fallback={<MainLoader />}>
+              <Routes>
                 <Route
-                  path={`${ROUTES.HOME}*`}
-                  element={<EmployerDash user={user} />}
+                  path={ROUTES.AUTHENTICATION}
+                  element={<Authentication user={user} />}
+                  children={[AuthSignup, AuthLogin, ForgotPass]}
                 />
-              ) : (
-                <Route
-                  path={`${ROUTES.HOME}*`}
-                  element={<Dashboard user={user} />}
-                />
-              )}
-              {/* <Route path="*" element={<NotFound />} /> */}
-            </Routes>
-          </Suspense>
-        </Router>
+                {user?.isEmployeer ? (
+                  <Route
+                    path={`${ROUTES.HOME}*`}
+                    element={<EmployerDash user={user} />}
+                  />
+                ) : (
+                  <Route
+                    path={`${ROUTES.HOME}*`}
+                    element={<Dashboard user={user} />}
+                  />
+                )}
+                {/* <Route path="*" element={<NotFound />} /> */}
+              </Routes>
+            </Suspense>
+          </Router>
 
-        <ToastBox />
-        {/* <MainLoader /> */}
+          <ToastBox />
+          {/* <MainLoader /> */}
+        </DataProvider>
       </UserProvider>
     </>
   );
