@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PAYTYPE } from "../../constants/variables";
 
-export default function PayRate() {
+export default function PayRate({ jobDetails, setJobDetails }) {
   const [type, setType] = useState(PAYTYPE[0]);
   const [range, setRange] = useState({
-    start: "",
-    end: "",
+    start: 0,
+    end: 0,
   });
-  const [maximumAmount, setMaximumAmount] = useState("");
-  const [amount, setAmount] = useState("");
 
-  console.log(type);
+  useEffect(() => {
+    if (type === PAYTYPE[1] || type === PAYTYPE[2] || type === PAYTYPE[3]) {
+      setRange({ ...range, end: 0 });
+    }
+  }, [type]);
+
+  useEffect(() => {
+    setJobDetails({ ...jobDetails, payRate: range });
+  }, [range, type]);
+
   return (
     <div className="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow-lg rounded-3xl sm:p-10">
       <form className="mt-10" action="#" method="POST">
@@ -42,8 +49,11 @@ export default function PayRate() {
                 Starting
               </label>
               <input
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                type="text"
+                value={range.start}
+                onChange={(e) =>
+                  setRange({ ...range, start: parseInt(e.target.value) })
+                }
+                type="number"
                 id="name"
                 name="name"
                 class="w-full px-4 py-2 rounded-lg border border-gray-400 focus:outline-none focus:border-blue-500"
@@ -56,7 +66,11 @@ export default function PayRate() {
                 Maximum:
               </label>
               <input
-                // onChange={(e) => setForm({ ...form, name: e.target.value })}
+                value={range.end}
+                type="number"
+                onChange={(e) =>
+                  setRange({ ...range, end: parseInt(e.target.value) })
+                }
                 class="w-full px-4 py-2 rounded-lg border border-gray-400 focus:outline-none focus:border-blue-500"
               />
             </div>
@@ -71,11 +85,12 @@ export default function PayRate() {
                 : "exact amount"}
             </label>
             <input
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              type="text"
+              value={range.start}
+              onChange={(e) =>
+                setRange({ ...range, start: parseInt(e.target.value) })
+              }
+              type="number"
               placeholder="$"
-              id="name"
-              name="name"
               class="w-96 px-4 py-2 rounded-lg border border-gray-400 focus:outline-none focus:border-blue-500"
               required
             />

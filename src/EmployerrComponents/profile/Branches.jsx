@@ -1,14 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useData } from "../../Context/DataContext";
 import { BRANCHFORM, JOBTYPE, STATE } from "../../constants/variables";
+import { useUser } from "../../Context/userContext";
 
 export default function Branches() {
   const [formOpen, setFormOpen] = useState(false);
   const [form, setForm] = useState(BRANCHFORM);
+  const { branches, addBranchContext, getAllBranchesContext } = useData();
+  const { setLoading } = useUser();
 
-  const { branches, addBranch } = useData();
+  useEffect(() => {
+    getAllBranchesContext();
+  }, []);
 
-  console.log(branches);
+  const handleAddBranch = (e) => {
+    setLoading(true);
+    e.preventDefault();
+    addBranchContext(form);
+    setLoading(false);
+    setFormOpen(false);
+  };
 
   return (
     <div className="  border-2 border-slate-300 w-90 h-full p-5 mt-5">
@@ -51,7 +62,8 @@ export default function Branches() {
                 City:
               </label>
               <input
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                value={form.city}
+                onChange={(e) => setForm({ ...form, city: e.target.value })}
                 type="text"
                 id="name"
                 name="name"
@@ -65,7 +77,8 @@ export default function Branches() {
                 Pincode:
               </label>
               <input
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                value={form.pincode}
+                onChange={(e) => setForm({ ...form, pincode: e.target.value })}
                 type="text"
                 id="name"
                 name="name"
@@ -79,11 +92,12 @@ export default function Branches() {
                 State:
               </label>
               <select
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                value={form.state}
+                onChange={(e) => setForm({ ...form, state: e.target.value })}
                 class="w-full px-4 py-2 rounded-lg border border-gray-400 focus:outline-none focus:border-blue-500"
               >
                 {STATE.map((state) => (
-                  <option key={state.data} type="text" id="name" required>
+                  <option key={state.code} value={state.code} required>
                     {state.data}
                   </option>
                 ))}
@@ -92,10 +106,7 @@ export default function Branches() {
           </div>
           <div class="flex justify-end">
             <button
-              onClick={(e) => {
-                e.preventDefault();
-                addBranch(form);
-              }}
+              onClick={handleAddBranch}
               class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
             >
               Save
@@ -113,10 +124,16 @@ export default function Branches() {
       )}
 
       <div className="grid grid-cols-3 gap-4 mt-4">
-        {branches.map((brnach) => (
-          <div className="bg-gray-200 p-4 rounded-lg col-span-1">
-            <div className="font-bold text-xl"> {brnach.name}</div>
-            <div>{brnach.address}</div>
+        {branches.map((branch) => (
+          <div
+            key={branch._id}
+            className="bg-gray-200 p-4 rounded-lg col-span-1"
+          >
+            <div className="font-bold text-xl"> {branch.name}</div>
+            <div>{branch.address}</div>
+            <div>
+              {branch.city}, {branch.state}
+            </div>
           </div>
         ))}
       </div>

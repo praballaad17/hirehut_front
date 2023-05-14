@@ -11,6 +11,7 @@ import NavBar from "../EmployerrComponents/NavBar";
 import Profile from "../EmployerrComponents/profile/Profile";
 import SideBar from "../EmployerrComponents/SideBar";
 import PostJob from "../EmployerrComponents/postJob/PostJob";
+import JobPage from "../EmployerrComponents/postJob/JobPage";
 
 export default function EmployerDash() {
   return (
@@ -27,6 +28,7 @@ export default function EmployerDash() {
               {/* <Route path={`${ROUTES.MESSAGES}`} element={<Message />} /> */}
               <Route path={`${ROUTES.PROFILE}/*`} element={<Profile />} />
               <Route path={`${ROUTES.ADDJOB}`} element={<PostJob />} />
+              <Route path={`${ROUTES.JOBPAGE}`} element={<JobPage />} />
             </Routes>
           </Suspense>
         </div>

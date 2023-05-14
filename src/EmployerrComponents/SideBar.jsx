@@ -1,15 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBriefcase,
-  faBullhorn,
-  faUser,
-  faBell,
-  faSearch,
-  faClipboard,
-  faBars,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { SIDEBAR } from "../constants/variables";
 import { Link } from "react-router-dom";
 import { ADDJOB } from "../constants/routes";
@@ -53,15 +44,15 @@ export default function SideBar() {
           </div>
           <nav class="">
             {SIDEBAR.map((item) => (
-              <a
-                href="#"
+              <Link
+                to={item.link}
                 class="block py-2 pl-3  text-sm font-semibold text-gray-900  rounded-lg hover:text-gray-900 hover:bg-gray-300 focus:bg-gray-300 focus:outline-none focus:text-gray-900"
               >
                 <div className="text-xl inline-block">{item.icon}</div>
                 <div className="ml-3 inline-block">
                   {isSidebarOpen ? item.data : ""}
                 </div>
-              </a>
+              </Link>
             ))}
           </nav>
         </div>

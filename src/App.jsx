@@ -55,7 +55,7 @@ export default function App() {
           </Router>
 
           <ToastBox />
-          {/* <MainLoader /> */}
+          <MainLoader />
         </DataProvider>
       </UserProvider>
     </>

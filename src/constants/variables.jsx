@@ -1,3 +1,5 @@
+import { JOBPAGE } from "./routes";
+
 export const PROFILENAV = {
   OVERVIEW: "overview",
   RESUME: "resume",
@@ -85,7 +87,7 @@ export const COMPANYDETAILS = {
 };
 
 export const SIDEBAR = [
-  { data: "jobs", icon: <i class="fa-solid fa-briefcase"></i> },
+  { data: "jobs", icon: <i class="fa-solid fa-briefcase"></i>, link: JOBPAGE },
   { data: "campaign", icon: <i class="fa-solid fa-bullhorn"></i> },
   { data: "candidates", icon: <i class="fa-solid fa-users"></i> },
   { data: "search resume", icon: <i class="fa-solid fa-file"></i> },
@@ -96,7 +98,7 @@ export const BRANCHFORM = {
   name: "",
   address: "",
   city: "",
-  state: "",
+  state: "BC",
   pincode: "",
 };
 
@@ -190,12 +192,27 @@ export const BENEFITS = [
   { code: "OT", name: "Other" },
 ];
 
+export const HIRETIME = [
+  { code: "01", name: "1 - 2 days" },
+  { code: "02", name: "2 - 7 days" },
+  { code: "03", name: "1 - 2 weeks" },
+  { code: "04", name: "2 - 4 weeks" },
+  { code: "05", name: "more than 4 weeks" },
+];
+
 export const JOBDETAILS = {
   title: "",
+  location: "",
   jobType: new Set(),
   shift: new Set(),
   benefits: new Set(),
   supplementPay: new Set(),
   opening: 0,
   detailPDF: "",
+  hireTime: "01",
+  description: "",
+  payRate: {
+    start: 0,
+    end: 0,
+  },
 };

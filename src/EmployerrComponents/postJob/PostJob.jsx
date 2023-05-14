@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useData } from "../../Context/DataContext";
 import {
   BENEFITS,
+  HIRETIME,
   JOBDETAILS,
   JOBTYPE,
   SHIFT,
@@ -9,12 +10,20 @@ import {
 } from "../../constants/variables";
 import PayRate from "./PayRate";
 import { useUser } from "../../Context/userContext";
+import { addJob } from "../../services/employeerServices";
+import { useNavigate } from "react-router-dom";
+import { JOBPAGE } from "../../constants/routes";
 
 export default function PostJob() {
-  const { branches } = useData();
-  const { setLoading, loading } = useUser();
+  const { branches, getAllBranchesContext } = useData();
+  const { setLoading, loading, user } = useUser();
   const [jobDetails, setJobDetails] = useState(JOBDETAILS);
   const [PDFFile, setPDFFile] = useState();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getAllBranchesContext();
+  }, []);
 
   const handlePdf = (e) => {
     setLoading(true);
@@ -37,7 +46,27 @@ export default function PostJob() {
     });
   };
 
-  console.log(jobDetails);
+  const handleJobPost = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    console.log(jobDetails);
+
+    let formData = { ...jobDetails };
+
+    formData.jobType = [...formData.jobType];
+    formData.shift = [...formData.shift];
+    formData.benefits = [...formData.benefits];
+    formData.supplementPay = [...formData.supplementPay];
+    formData.userId = user.id;
+
+    try {
+      await addJob(formData);
+      setLoading(false);
+      navigate(JOBPAGE);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 gap-4 mt-4">
@@ -60,11 +89,17 @@ export default function PostJob() {
           Where will Employee Will Report To work?
         </label>
         <select
-          onChange={(e) => setForm({ ...form, employeecount: e.target.value })}
+          value={jobDetails.location}
+          onChange={(e) =>
+            setJobDetails({ ...jobDetails, location: e.target.value })
+          }
           className="border border-gray-400 capitalize p-2 w-96 rounded-lg focus:outline-none focus:border-blue-500"
         >
+          <option value={""}>select</option>
           {branches.map((item) => (
-            <option key={item.name}>{item.name}</option>
+            <option key={item._id} value={item._id}>
+              {item.name}
+            </option>
           ))}
         </select>
       </div>
@@ -128,14 +163,24 @@ export default function PostJob() {
           <label for="email" className="block text-gray-700 font-bold mb-2">
             How quickly do you need to hire?*
           </label>
-          <select className="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500">
-            <option></option>
+          <select
+            value={jobDetails.hireTime}
+            onChange={(e) =>
+              setJobDetails({ ...jobDetails, hireTime: e.target.value })
+            }
+            className="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
+          >
+            {HIRETIME.map((item) => (
+              <option key={item.code} value={item.code}>
+                {item.name}
+              </option>
+            ))}
           </select>
         </div>
       </div>
 
       <div className="mb-5 bg-gray-200 p-10 rounded-lg w-3/4">
-        <PayRate />
+        <PayRate jobDetails={jobDetails} setJobDetails={setJobDetails} />
       </div>
 
       <div className="mb-5 bg-gray-200 p-10 rounded-lg w-3/4">
@@ -186,7 +231,10 @@ export default function PostJob() {
             Job Description
           </label>
           <textarea
-            onChange={(e) => setForm({ ...form, description: e.target.value })}
+            value={jobDetails.description}
+            onChange={(e) =>
+              setJobDetails({ ...jobDetails, description: e.target.value })
+            }
             className="border border-gray-400 w-full h-40 p-3"
           />
         </div>
@@ -228,7 +276,10 @@ export default function PostJob() {
         <div className="font-bold text-blue-600 cursor-pointer mr-4">
           Show Preview
         </div>
-        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2">
+        <button
+          onClick={handleJobPost}
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
+        >
           Save
         </button>
         <button class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
