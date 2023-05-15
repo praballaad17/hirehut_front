@@ -12,27 +12,32 @@ import Profile from "../EmployerrComponents/profile/Profile";
 import SideBar from "../EmployerrComponents/SideBar";
 import PostJob from "../EmployerrComponents/postJob/PostJob";
 import JobPage from "../EmployerrComponents/postJob/JobPage";
+import { DataProvider } from "../Context/EmployeerDataContext";
 
-export default function EmployerDash() {
+export default function EmployerDash({ user }) {
+  if (!user) return <Navigate to={`/authentication${ROUTES.LOGIN}`} />;
+
   return (
-    <div>
-      <NavBar />
-      <div className="pt-16"></div>
-      <div className="flex ">
-        <div className="">
-          <SideBar />
-        </div>
-        <div className="grow">
-          <Suspense fallback={<MainLoader />}>
-            <Routes>
-              {/* <Route path={`${ROUTES.MESSAGES}`} element={<Message />} /> */}
-              <Route path={`${ROUTES.PROFILE}/*`} element={<Profile />} />
-              <Route path={`${ROUTES.ADDJOB}`} element={<PostJob />} />
-              <Route path={`${ROUTES.JOBPAGE}`} element={<JobPage />} />
-            </Routes>
-          </Suspense>
+    <DataProvider user={user}>
+      <div>
+        <NavBar />
+        <div className="pt-16"></div>
+        <div className="flex ">
+          <div className="">
+            <SideBar />
+          </div>
+          <div className="grow">
+            <Suspense fallback={<MainLoader />}>
+              <Routes>
+                {/* <Route path={`${ROUTES.MESSAGES}`} element={<Message />} /> */}
+                <Route path={`${ROUTES.PROFILE}/*`} element={<Profile />} />
+                <Route path={`${ROUTES.ADDJOB}`} element={<PostJob />} />
+                <Route path={`${ROUTES.JOBPAGE}`} element={<JobPage />} />
+              </Routes>
+            </Suspense>
+          </div>
         </div>
       </div>
-    </div>
+    </DataProvider>
   );
 }

@@ -17,7 +17,8 @@ import { UserProvider } from "./Context/userContext";
 import ToastBox from "./components/Toast/ToastBox";
 import ForgotPass from "./pages/Authenticate/ForgotPass";
 import EmployerDash from "./pages/EmployerDash";
-import { DataProvider } from "./Context/DataContext";
+import { DataProvider } from "./Context/EmployeerDataContext";
+import { JobseekerDataProvider } from "./Context/JobseekerDataContext";
 
 // const Login = lazy(() => import('./pages/Login'));
 // const SignUp = lazy(() => import('./pages/Signup'));
@@ -29,34 +30,32 @@ export default function App() {
   return (
     <>
       <UserProvider user={user}>
-        <DataProvider user={user}>
-          <Router>
-            <Suspense fallback={<MainLoader />}>
-              <Routes>
+        <Router>
+          <Suspense fallback={<MainLoader />}>
+            <Routes>
+              <Route
+                path={ROUTES.AUTHENTICATION}
+                element={<Authentication user={user} />}
+                children={[AuthSignup, AuthLogin, ForgotPass]}
+              />
+              {user?.isEmployeer ? (
                 <Route
-                  path={ROUTES.AUTHENTICATION}
-                  element={<Authentication user={user} />}
-                  children={[AuthSignup, AuthLogin, ForgotPass]}
+                  path={`${ROUTES.HOME}*`}
+                  element={<EmployerDash user={user} />}
                 />
-                {user?.isEmployeer ? (
-                  <Route
-                    path={`${ROUTES.HOME}*`}
-                    element={<EmployerDash user={user} />}
-                  />
-                ) : (
-                  <Route
-                    path={`${ROUTES.HOME}*`}
-                    element={<Dashboard user={user} />}
-                  />
-                )}
-                {/* <Route path="*" element={<NotFound />} /> */}
-              </Routes>
-            </Suspense>
-          </Router>
+              ) : (
+                <Route
+                  path={`${ROUTES.HOME}*`}
+                  element={<Dashboard user={user} />}
+                />
+              )}
+              {/* <Route path="*" element={<NotFound />} /> */}
+            </Routes>
+          </Suspense>
+        </Router>
 
-          <ToastBox />
-          <MainLoader />
-        </DataProvider>
+        <ToastBox />
+        <MainLoader />
       </UserProvider>
     </>
   );

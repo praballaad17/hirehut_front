@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useData } from "../../Context/DataContext";
+import { useData } from "../../Context/EmployeerDataContext";
 import {
   BENEFITS,
   HIRETIME,
@@ -24,6 +24,8 @@ export default function PostJob() {
   useEffect(() => {
     getAllBranchesContext();
   }, []);
+
+  console.log(user);
 
   const handlePdf = (e) => {
     setLoading(true);
@@ -58,6 +60,7 @@ export default function PostJob() {
     formData.benefits = [...formData.benefits];
     formData.supplementPay = [...formData.supplementPay];
     formData.userId = user.id;
+    formData.profileId = user.profileId;
 
     try {
       await addJob(formData);
@@ -98,7 +101,7 @@ export default function PostJob() {
           <option value={""}>select</option>
           {branches.map((item) => (
             <option key={item._id} value={item._id}>
-              {item.name}
+              {item.name}, ({item.city},{item.state} )
             </option>
           ))}
         </select>

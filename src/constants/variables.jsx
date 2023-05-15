@@ -2,7 +2,7 @@ import { JOBPAGE } from "./routes";
 
 export const PROFILENAV = {
   OVERVIEW: "overview",
-  RESUME: "resume",
+  BRANCHES: "branches",
 };
 
 export const NAVITEM = {
@@ -17,6 +17,14 @@ export const NAVITEM = {
   CASHBANK: "cashbank",
   IMPORTITEM: "import-item",
 };
+
+export const JOBSTATUSOBJ = {
+  OPEN: "open",
+  CLOSE: "close",
+  PENDING: "pending",
+};
+
+export const JOBSTATUS = ["open", "close", "pending"];
 
 export const EXPFORM = {
   company: "",
@@ -118,7 +126,7 @@ export const STATE = [
   { data: "Yukon Territory", code: "YT" },
 ];
 
-const CITIES = {
+export const CITIES = {
   AB: ["Calgary", "Edmonton"],
   BC: ["Vancouver", "Victoria"],
   MB: ["Winnipeg"],
@@ -144,6 +152,17 @@ export const JOBTYPE = [
   { code: "FL", name: "Freelance" },
   { code: "VL", name: "Volunteer" },
 ];
+
+export const JOBTYPEOBJ = {
+  CT: "Contractual / Temporary",
+  FL: "Freelance",
+  FR: "Fresher",
+  FT: "Full-time",
+  IN: "Internship",
+  PT: "Part-time",
+  RP: "Regular / Permanent",
+  VL: "Volunteer",
+};
 
 export const SHIFT = [
   { code: "DS", name: "Day shift" },

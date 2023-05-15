@@ -26,10 +26,10 @@ export default function Profile() {
             </li>
             <li
               className={`mx-5  ${
-                type === PROFILENAV.RESUME ? "border-b-2" : ""
+                type === PROFILENAV.BRANCHES ? "border-b-2" : ""
               } border-slate-600`}
             >
-              <Link to="/profile/braches">Branches</Link>
+              <Link to="/profile/branches">Branches</Link>
             </li>
           </ul>
         </div>
@@ -37,7 +37,7 @@ export default function Profile() {
           <Suspense fallback={<MainLoader />}>
             <Routes>
               <Route path="/overview" element={<ProfileBox />} />
-              <Route path="/braches" element={<Branches />} />
+              <Route path="/branches" element={<Branches />} />
             </Routes>
           </Suspense>
         </div>

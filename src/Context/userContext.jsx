@@ -27,8 +27,7 @@ export function UserProvider({ user, children }) {
 
   const getUserProfileContext = async () => {
     try {
-      const res = await getUserProfile(user.id);
-      console.log(res);
+      const res = await getUserProfile(user.id, user.isEmployeer);
       setProfile(res);
     } catch (error) {
       addToast("User Not Found", true);

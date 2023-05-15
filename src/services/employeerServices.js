@@ -48,3 +48,12 @@ export const deleteJob = async (id) => {
     return error;
   }
 };
+
+export const deleteBranch = async (id) => {
+  try {
+    const response = await axios.delete(`${apiEndpoint}/delete-branch/${id}`);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};

@@ -14,8 +14,18 @@ export default function ToastItem({ toast, idx }) {
       } rounded-lg shadow-lg p-4 my-3`}
     >
       <div className="flex flex-row items-center">
-        <div className="rounded-full bg-green-500 text-white h-8 w-8 flex items-center justify-center">
-          <i className="fas fa-check"></i>
+        <div className="rounded-full text-2xl text-white h-8 w-8 flex items-center justify-center">
+          {toast.isError ? (
+            <i
+              class="fa-solid fa-circle-exclamation"
+              style={{ color: "#ffffff" }}
+            ></i>
+          ) : (
+            <i
+              class="fa-regular fa-circle-check"
+              style={{ color: "#03b300" }}
+            ></i>
+          )}
         </div>
         <div className="ml-2 mr-6">
           <p className="font-bold"> Hire Hut</p>

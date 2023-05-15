@@ -30,10 +30,10 @@ export const getPartyByUserId = async (userId, partyType) => {
   }
 };
 
-export const getUserProfile = async (userId) => {
+export const getUserProfile = async (userId, isEmployeer) => {
   try {
     const response = await axios.get(
-      `${apiEndpoint}/get-user-profile/${userId}`
+      `${apiEndpoint}/get-user-profile/${userId}/${isEmployeer}`
     );
     return response.data;
   } catch (error) {

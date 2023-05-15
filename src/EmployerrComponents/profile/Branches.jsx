@@ -1,24 +1,48 @@
 import React, { useEffect, useState } from "react";
-import { useData } from "../../Context/DataContext";
-import { BRANCHFORM, JOBTYPE, STATE } from "../../constants/variables";
+import { useData } from "../../Context/EmployeerDataContext";
+import { BRANCHFORM, CITIES, STATE } from "../../constants/variables";
 import { useUser } from "../../Context/userContext";
+import { deleteBranch } from "../../services/employeerServices";
 
 export default function Branches() {
   const [formOpen, setFormOpen] = useState(false);
   const [form, setForm] = useState(BRANCHFORM);
   const { branches, addBranchContext, getAllBranchesContext } = useData();
-  const { setLoading } = useUser();
+  const { setLoading, addToast } = useUser();
+  const [cities, setCities] = useState([]);
 
   useEffect(() => {
     getAllBranchesContext();
   }, []);
 
-  const handleAddBranch = (e) => {
+  useEffect(() => {
+    console.log("set city, ", form.state);
+    setCities(CITIES[form.state]);
+  }, [form.state]);
+
+  const handleAddBranch = async (e) => {
+    if (!form.name || !form.address || !form.city || !form.pincode) {
+      addToast("Fill all form Fields", true);
+      return;
+    }
     setLoading(true);
     e.preventDefault();
-    addBranchContext(form);
-    setLoading(false);
+    await addBranchContext(form);
+    setForm(BRANCHFORM);
     setFormOpen(false);
+    setLoading(false);
+  };
+
+  const handleDelete = async (id) => {
+    setLoading(true);
+    try {
+      await deleteBranch(id);
+      addToast(`Branch is deleted`);
+      getAllBranchesContext();
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
   };
 
   return (
@@ -36,6 +60,7 @@ export default function Branches() {
               Name:
             </label>
             <input
+              value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               type="text"
               id="name"
@@ -49,6 +74,7 @@ export default function Branches() {
               Address:
             </label>
             <textarea
+              value={form.address}
               onChange={(e) => setForm({ ...form, address: e.target.value })}
               id="address"
               name="address"
@@ -61,15 +87,18 @@ export default function Branches() {
               <label for="address" class="block text-gray-700 font-bold mb-2">
                 City:
               </label>
-              <input
+              <select
                 value={form.city}
                 onChange={(e) => setForm({ ...form, city: e.target.value })}
-                type="text"
-                id="name"
-                name="name"
                 class="w-full px-4 py-2 rounded-lg border border-gray-400 focus:outline-none focus:border-blue-500"
-                required
-              />
+              >
+                <option value={null}>select</option>
+                {cities.map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="col-span-1">
@@ -93,7 +122,9 @@ export default function Branches() {
               </label>
               <select
                 value={form.state}
-                onChange={(e) => setForm({ ...form, state: e.target.value })}
+                onChange={(e) => {
+                  setForm({ ...form, state: e.target.value });
+                }}
                 class="w-full px-4 py-2 rounded-lg border border-gray-400 focus:outline-none focus:border-blue-500"
               >
                 {STATE.map((state) => (
@@ -127,12 +158,22 @@ export default function Branches() {
         {branches.map((branch) => (
           <div
             key={branch._id}
-            className="bg-gray-200 p-4 rounded-lg col-span-1"
+            className="group/item bg-gray-200 p-4 rounded-lg col-span-1"
           >
-            <div className="font-bold text-xl"> {branch.name}</div>
-            <div>{branch.address}</div>
             <div>
-              {branch.city}, {branch.state}
+              <div className="font-bold text-xl"> {branch.name}</div>
+              <div>{branch.address}</div>
+              <div>
+                {branch.city}, {branch.state}
+              </div>
+            </div>
+            <div>
+              <button
+                onClick={() => handleDelete(branch._id)}
+                className="invisible group-hover/item:visible hover:text-red-600"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
             </div>
           </div>
         ))}

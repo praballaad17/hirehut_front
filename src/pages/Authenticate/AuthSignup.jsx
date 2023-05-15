@@ -11,8 +11,6 @@ import { useUser } from "../../Context/userContext";
 import * as ROUTES from "../../constants/routes";
 
 const AuthSignup = ({ user: User }) => {
-  const [username, setUsername] = useState("");
-  const [fullName, setFullName] = useState("");
   const [isEmployeer, setIsEmployeer] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +19,11 @@ const AuthSignup = ({ user: User }) => {
 
   const { addToast, setLoading, loading } = useUser();
 
-  console.log(isEmployeer);
+  const validateEmail = (email) => {
+    const emailReg =
+      /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+    return emailReg.test(email);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,23 +32,24 @@ const AuthSignup = ({ user: User }) => {
       // if(email.length === 0 ) {
 
       // }
-      try {
-        const res = await emailCheck(email);
-        if (res.status === 400) {
-          addToast(`${email} is already added`, true);
-        } else {
-          setIsCheck(1);
-        }
-      } catch (error) {}
+      console.log(validateEmail(email));
+      if (validateEmail(email)) {
+        try {
+          const res = await emailCheck(email);
+          if (res.status === 400) {
+            addToast(`${email} is already added`, true);
+          } else {
+            setIsCheck(1);
+          }
+        } catch (error) {}
+      } else {
+        addToast("Enter valid email", true);
+        setLoading(false);
+        return;
+      }
     } else if (isCheck === 1) {
-      const res = await registerUser(
-        username,
-        fullName,
-        email,
-        password,
-        isEmployeer
-      );
-      addToast(`${username} is added`);
+      const res = await registerUser(email, password, isEmployeer);
+      addToast(`${email} is added`);
       window.location.href = ROUTES.DASHBOARD;
     }
     setLoading(false);

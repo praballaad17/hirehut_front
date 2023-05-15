@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   COMPANYDETAILS,
   EMPLOYEERROLES,
@@ -8,9 +8,37 @@ import { updateProfile } from "../../services/profileServices";
 import { useUser } from "../../Context/userContext";
 
 export default function ProfileBox() {
-  const { user, loading, setLoading } = useUser();
+  const { user, addToast, setLoading, profile } = useUser();
   const [form, setForm] = useState(COMPANYDETAILS);
   const [logo, setLogo] = useState("");
+
+  function copyFields(source, destination) {
+    for (let key in source) {
+      if (source[key] !== "") {
+        destination[key] = source[key];
+      }
+    }
+  }
+  useEffect(() => {
+    copyFields(profile, form);
+  }, [profile]);
+
+  console.log(form);
+
+  const handleUpdateProfile = async () => {
+    setLoading(true);
+    try {
+      const res = await updateProfile(form, user.id);
+      addToast("Profile is updated!");
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
+
+  const reset = () => {
+    setForm(COMPANYDETAILS);
+  };
 
   return (
     <div className="border-2 border-slate-300 w-90 h-full p-5 mt-5">
@@ -19,6 +47,7 @@ export default function ProfileBox() {
           Your Company
         </label>
         <input
+          value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
           className="border border-gray-400 p-2 w-96 rounded-lg focus:outline-none focus:border-blue-500"
         />
@@ -28,11 +57,15 @@ export default function ProfileBox() {
           Your Role
         </label>
         <select
+          value={form.role}
           onChange={(e) => setForm({ ...form, role: e.target.value })}
           className="border border-gray-400 capitalize p-2 w-96 rounded-lg focus:outline-none focus:border-blue-500"
         >
+          <option value={""}>select</option>
           {EMPLOYEERROLES.map((item) => (
-            <option>{item}</option>
+            <option key={item} value={item}>
+              {item}
+            </option>
           ))}
         </select>
       </div>
@@ -65,6 +98,7 @@ export default function ProfileBox() {
           Website
         </label>
         <input
+          value={form.website}
           onChange={(e) => setForm({ ...form, website: e.target.value })}
           className="border border-gray-400 p-2 w-96 rounded-lg focus:outline-none focus:border-blue-500"
         />
@@ -75,6 +109,7 @@ export default function ProfileBox() {
           Location
         </label>
         <input
+          value={form.location}
           onChange={(e) => setForm({ ...form, location: e.target.value })}
           className="border border-gray-400 p-2 w-96 rounded-lg focus:outline-none focus:border-blue-500"
         />
@@ -85,6 +120,7 @@ export default function ProfileBox() {
           No of Employess
         </label>
         <select
+          value={form.employeecount}
           onChange={(e) => setForm({ ...form, employeecount: e.target.value })}
           className="border border-gray-400 capitalize p-2 w-96 rounded-lg focus:outline-none focus:border-blue-500"
         >
@@ -100,6 +136,7 @@ export default function ProfileBox() {
           <div className="inline-block ">{2000 - form.description.length}</div>
         </label>
         <textarea
+          value={form.description}
           maxLength={2000}
           onChange={(e) => setForm({ ...form, description: e.target.value })}
           className="border border-gray-400 w-1/2 h-40"
@@ -115,10 +152,26 @@ export default function ProfileBox() {
           <div className="inline-block ">{100 - form.pitch.length}</div>
         </label>
         <input
+          value={form.pitch}
           maxLength={100}
           onChange={(e) => setForm({ ...form, pitch: e.target.value })}
           className="border border-gray-400 p-2 w-1/2 rounded-lg focus:outline-none focus:border-blue-500"
         />
+      </div>
+
+      <div class="flex justify-start">
+        <button
+          onClick={handleUpdateProfile}
+          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
+        >
+          Save
+        </button>
+        <button
+          onClick={reset}
+          class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+        >
+          Close
+        </button>
       </div>
     </div>
   );

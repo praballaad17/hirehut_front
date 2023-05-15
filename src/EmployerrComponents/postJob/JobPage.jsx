@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
-import { useData } from "../../Context/DataContext";
+import { useData } from "../../Context/EmployeerDataContext";
 import { deleteJob } from "../../services/employeerServices";
 import { useUser } from "../../Context/userContext";
 import { Link } from "react-router-dom";
+import { JOBSTATUS } from "../../constants/variables";
+import { ADDJOB } from "../../constants/routes";
 
 export default function JobPage() {
   const { getAllJobsContext, jobs } = useData();
@@ -24,9 +26,14 @@ export default function JobPage() {
   };
   return (
     <div>
-      <div>
-        <h1>Jobs</h1>
-        <button>Add Job</button>
+      <div className="flex justify-between px-3 py-3">
+        <h1 className="text-xl font-bold">Jobs</h1>
+        <Link
+          to={ADDJOB}
+          className="border-2 border-gray-900 text-gray-900 py-2 px-3 rounded-lg hover:bg-gray-200"
+        >
+          Add Job
+        </Link>
       </div>
       <div className="flex justify-between">
         <div className="flex items-center">
@@ -67,6 +74,14 @@ export default function JobPage() {
             <div className="flex gap-4">
               <span className="flex items-center">Saved</span>
               <div className="flex items-center">
+                <select
+                  value={job.status}
+                  className="border border-gray-400 capitalize p-2 mx-3  rounded-lg focus:outline-none focus:border-blue-500"
+                >
+                  {JOBSTATUS.map((item) => (
+                    <option key={item}>{item}</option>
+                  ))}
+                </select>
                 <button
                   className="px-3 py-2 border-2 border-gray-900 rounded-lg text-gray-900 font-bold hover:bg-gray-300"
                   onClick={() => handleDelete(job._id)}
