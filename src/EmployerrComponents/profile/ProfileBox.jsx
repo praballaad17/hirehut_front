@@ -23,8 +23,6 @@ export default function ProfileBox() {
     copyFields(profile, form);
   }, [profile]);
 
-  console.log(form);
-
   const handleUpdateProfile = async () => {
     setLoading(true);
     try {

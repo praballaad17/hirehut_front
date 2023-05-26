@@ -13,6 +13,8 @@ import Profile from "../components/profile/Profile";
 import Home from "../components/Home";
 import FindJob from "../components/job/FindJob";
 import { JobseekerDataProvider } from "../Context/JobseekerDataContext";
+import SavedJobs from "../components/job/SavedJobs";
+import AppliedJob from "../components/job/AppliedJob";
 
 export default function Dashboard({ user }) {
   if (!user) return <Navigate to={`/authentication${ROUTES.LOGIN}`} />;
@@ -28,6 +30,8 @@ export default function Dashboard({ user }) {
             <Route path={`${ROUTES.PROFILE}/*`} element={<Profile />} />
             <Route path={`${ROUTES.FINDJOB}/*`} element={<FindJob />} />
             <Route path={`${ROUTES.HOME}`} element={<Home />} />
+            <Route path={`${ROUTES.SAVEDJOB}`} element={<SavedJobs />} />
+            <Route path={`${ROUTES.APPLIEDJOB}`} element={<AppliedJob />} />
           </Routes>
         </Suspense>
       </div>

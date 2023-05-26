@@ -1,4 +1,4 @@
-import { JOBPAGE } from "./routes";
+import { CANDIDATES, JOBPAGE } from "./routes";
 
 export const PROFILENAV = {
   OVERVIEW: "overview",
@@ -97,7 +97,11 @@ export const COMPANYDETAILS = {
 export const SIDEBAR = [
   { data: "jobs", icon: <i class="fa-solid fa-briefcase"></i>, link: JOBPAGE },
   { data: "campaign", icon: <i class="fa-solid fa-bullhorn"></i> },
-  { data: "candidates", icon: <i class="fa-solid fa-users"></i> },
+  {
+    data: "candidates",
+    icon: <i class="fa-solid fa-users"></i>,
+    link: CANDIDATES,
+  },
   { data: "search resume", icon: <i class="fa-solid fa-file"></i> },
   { data: "Interviews", icon: <i class="fa-solid fa-calendar-days"></i> },
 ];
@@ -177,6 +181,19 @@ export const SHIFT = [
   { code: "US", name: "US shift" },
 ];
 
+export const SHIFTOBJ = {
+  DS: "Day shift",
+  MS: "Morning shift",
+  FS: "Flexible shift",
+  RS: "Rotational shift",
+  NS: "Night shift",
+  MF: "Monday to Friday",
+  ES: "Evening shift",
+  WA: "Weekend availability",
+  FX: "Fixed shift",
+  US: "US shift",
+};
+
 export const SUPPLEMENTPAY = [
   { code: "PB", name: "Performance bonus" },
   { code: "YB", name: "Yearly bonus" },
@@ -187,6 +204,17 @@ export const SUPPLEMENTPAY = [
   { code: "JB", name: "Joining bonus" },
   { code: "OT", name: "Other" },
 ];
+
+export const SUPPLEMENTPAYOBJ = {
+  PB: "Performance bonus",
+  YB: "Yearly bonus",
+  CP: "Commission pay",
+  OP: "Overtime pay",
+  QB: "Quarterly bonus",
+  SA: "Shift allowance",
+  JB: "Joining bonus",
+  OT: "Other",
+};
 
 export const PAYTYPE = [
   "range",
@@ -211,6 +239,22 @@ export const BENEFITS = [
   { code: "OT", name: "Other" },
 ];
 
+export const BENEFITSOBJ = {
+  HI: "Health insurance",
+  PF: "Provident Fund",
+  CR: "Cell phone reimbursement",
+  PS: "Paid sick time",
+  WFH: "Work from home",
+  PTO: "Paid time off",
+  FP: "Food provided",
+  LI: "Life insurance",
+  IR: "Internet reimbursement",
+  CA: "Commuter assistance",
+  LE: "Leave encashment",
+  FS: "Flexible schedule",
+  OT: "Other",
+};
+
 export const HIRETIME = [
   { code: "01", name: "1 - 2 days" },
   { code: "02", name: "2 - 7 days" },
@@ -218,6 +262,14 @@ export const HIRETIME = [
   { code: "04", name: "2 - 4 weeks" },
   { code: "05", name: "more than 4 weeks" },
 ];
+
+export const HIRETIMEOBJ = {
+  "01": "1 - 2 days",
+  "02": "2 - 7 days",
+  "03": "1 - 2 weeks",
+  "04": "2 - 4 weeks",
+  "05": "more than 4 weeks",
+};
 
 export const JOBDETAILS = {
   title: "",

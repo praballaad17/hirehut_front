@@ -5,25 +5,16 @@ import { useUser } from "../../Context/userContext";
 import { Link } from "react-router-dom";
 import { JOBSTATUS } from "../../constants/variables";
 import { ADDJOB } from "../../constants/routes";
+import noImg from "../../assets/no-job.jpg";
 
 export default function JobPage() {
   const { getAllJobsContext, jobs } = useData();
+
   const { addToast } = useUser();
   useEffect(() => {
     getAllJobsContext();
   }, []);
 
-  console.log(jobs);
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteJob(id);
-      addToast(`Job Has been Deleted`);
-      getAllJobsContext();
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <div>
       <div className="flex justify-between px-3 py-3">
@@ -57,42 +48,53 @@ export default function JobPage() {
           </div>
         </div>
       </div>
-      <div>
-        {jobs.map((job) => (
-          <div
-            key={job._id}
-            className="px-16 py-8 mx-8 my-4 rounded-lg bg-slate-200 flex justify-between"
-          >
-            <div>
-              <Link className="text-blue-600 hover:underline text-xl capitalize cursor-pointer">
-                {job.title}
-              </Link>
-              <div className="capitalize">
-                {job.location.city}, {job.location.state}
+      {jobs.length ? (
+        <div>
+          {jobs.map((job) => (
+            <div
+              key={job._id}
+              className="px-16 py-8 mx-8 my-4 rounded-lg bg-slate-200 flex justify-between"
+            >
+              <div>
+                <Link
+                  to={`/job/${job._id}`}
+                  className="text-blue-600 hover:underline text-xl capitalize cursor-pointer"
+                >
+                  {job.title}
+                </Link>
+                <div className="capitalize">
+                  {job.location.city}, {job.location.state}
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <span className="flex items-center">Saved</span>
+                <div className="flex items-center">
+                  <select
+                    value={job.status}
+                    className="border border-gray-400 capitalize p-2 mx-3  rounded-lg focus:outline-none focus:border-blue-500"
+                  >
+                    {JOBSTATUS.map((item) => (
+                      <option key={item}>{item}</option>
+                    ))}
+                  </select>
+
+                  <Link
+                    to={`/edit-job/${job._id}`}
+                    className="px-3 py-2 border-2 border-gray-900 rounded-lg text-gray-900 font-bold hover:bg-gray-300"
+                  >
+                    Edit
+                  </Link>
+                </div>
               </div>
             </div>
-            <div className="flex gap-4">
-              <span className="flex items-center">Saved</span>
-              <div className="flex items-center">
-                <select
-                  value={job.status}
-                  className="border border-gray-400 capitalize p-2 mx-3  rounded-lg focus:outline-none focus:border-blue-500"
-                >
-                  {JOBSTATUS.map((item) => (
-                    <option key={item}>{item}</option>
-                  ))}
-                </select>
-                <button
-                  className="px-3 py-2 border-2 border-gray-900 rounded-lg text-gray-900 font-bold hover:bg-gray-300"
-                  onClick={() => handleDelete(job._id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col justify-center items-center">
+          <img className="w-44 h-44" src={noImg} />
+          <div className="font-bold">No Job Posted</div>
+        </div>
+      )}
     </div>
   );
 }

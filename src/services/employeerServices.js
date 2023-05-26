@@ -20,6 +20,24 @@ export const addJob = async (form) => {
   }
 };
 
+export const editJob = async (form) => {
+  try {
+    const response = await axios.put(`${apiEndpoint}/edit-job`, form);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+export const getJobCandidates = async (jobId) => {
+  try {
+    const response = await axios.get(`${apiEndpoint}/candidates/${jobId}`);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getAllBranch = async (userId) => {
   try {
     const response = await axios.get(
@@ -52,6 +70,16 @@ export const deleteJob = async (id) => {
 export const deleteBranch = async (id) => {
   try {
     const response = await axios.delete(`${apiEndpoint}/delete-branch/${id}`);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
+//FETCH specific job
+export const fetchJobByJobId = async (jobId) => {
+  try {
+    const response = await axios.get(`${apiEndpoint}/fetch-job/${jobId}`);
     return response.data;
   } catch (error) {
     return error;

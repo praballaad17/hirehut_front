@@ -15,7 +15,6 @@ export default function NavBar() {
   const { profile } = useUser();
   const [open, setOpen] = useState(false);
 
-  console.log(profile);
   return (
     <nav className="bg-white shadow-lg fixed w-full">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">

@@ -13,6 +13,9 @@ import SideBar from "../EmployerrComponents/SideBar";
 import PostJob from "../EmployerrComponents/postJob/PostJob";
 import JobPage from "../EmployerrComponents/postJob/JobPage";
 import { DataProvider } from "../Context/EmployeerDataContext";
+import SingleJob from "../EmployerrComponents/postJob/SingleJob";
+import Candidate from "../EmployerrComponents/Candidate/Candidate";
+import SingleJobCand from "../EmployerrComponents/Candidate/SingleJobCand";
 
 export default function EmployerDash({ user }) {
   if (!user) return <Navigate to={`/authentication${ROUTES.LOGIN}`} />;
@@ -26,13 +29,20 @@ export default function EmployerDash({ user }) {
           <div className="">
             <SideBar />
           </div>
-          <div className="grow">
+          <div className="grow justify-items-center">
             <Suspense fallback={<MainLoader />}>
               <Routes>
                 {/* <Route path={`${ROUTES.MESSAGES}`} element={<Message />} /> */}
                 <Route path={`${ROUTES.PROFILE}/*`} element={<Profile />} />
                 <Route path={`${ROUTES.ADDJOB}`} element={<PostJob />} />
+                <Route path={`${ROUTES.EDITJOB}`} element={<PostJob />} />
                 <Route path={`${ROUTES.JOBPAGE}`} element={<JobPage />} />
+                <Route path={`${ROUTES.SINGLEJOB}`} element={<SingleJob />} />
+                <Route path={`${ROUTES.CANDIDATES}`} element={<Candidate />} />
+                <Route
+                  path={`${ROUTES.SINGLECANDIDATES}`}
+                  element={<SingleJobCand />}
+                />
               </Routes>
             </Suspense>
           </div>

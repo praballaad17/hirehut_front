@@ -26,7 +26,6 @@ import { JobseekerDataProvider } from "./Context/JobseekerDataContext";
 
 export default function App() {
   const { user, jwt } = useAuthListener();
-  console.log(user);
   return (
     <>
       <UserProvider user={user}>

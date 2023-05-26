@@ -9,8 +9,6 @@ export default function Profile() {
   let location = useLocation();
   const type = location.pathname.split("/")[2];
 
-  console.log(type, location.pathname);
-
   return (
     <div className="flex flex-col h-full justify-items-center p-8 ">
       <h1 className="text-4xl">Edit Your Profile</h1>

@@ -16,7 +16,6 @@ export default function Branches() {
   }, []);
 
   useEffect(() => {
-    console.log("set city, ", form.state);
     setCities(CITIES[form.state]);
   }, [form.state]);
 

@@ -32,7 +32,6 @@ const AuthSignup = ({ user: User }) => {
       // if(email.length === 0 ) {
 
       // }
-      console.log(validateEmail(email));
       if (validateEmail(email)) {
         try {
           const res = await emailCheck(email);

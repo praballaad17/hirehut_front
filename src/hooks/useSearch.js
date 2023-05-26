@@ -1,20 +1,20 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Url from "../config.json";
+import { useUser } from "../Context/userContext";
 
 export default function useSearch(query, pageNumber, searchField) {
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useUser();
   const [error, setError] = useState(false);
   const [result, setResult] = useState([]);
   // const [hasMore, setMore] = useState(false)
-  const apiEndpoint = Url?.localUrl + "/" + searchField;
+  const apiEndpoint = import.meta.env.VITE_API_URL + "/" + searchField;
 
   useEffect(() => {
     setResult([]);
   }, [query]);
 
   useEffect(() => {
-    if (!query?.length) {
+    if (!query) {
       setLoading(false);
       return;
     } else {
@@ -24,11 +24,12 @@ export default function useSearch(query, pageNumber, searchField) {
       let cancel;
       axios({
         method: "GET",
-        url: `${apiEndpoint}/search/${query}`,
-        // params: { page: pageNumber, limit: 5 },
+        url: `${apiEndpoint}`,
+        params: { query, page: pageNumber, limit: 5 },
         cancelToken: new axios.CancelToken((c) => (cancel = c)),
       })
         .then((res) => {
+          console.log("res succes");
           // setMore(res.data.length > 0);
           setLoading(false);
           setResult(res.data);

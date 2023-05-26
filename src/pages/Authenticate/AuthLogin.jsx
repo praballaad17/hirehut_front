@@ -16,7 +16,6 @@ const AuthLogin = ({ user: User }) => {
     try {
       await login(emailAddress, password);
       setLoading(false);
-      console.log(ROUTES.HOME);
       // navigate(ROUTES.DASHBOARD);
       window.location.href = ROUTES.DASHBOARD;
     } catch (error) {

@@ -8,6 +8,7 @@ import React, {
 import { getUserProfile } from "../services/profileServices";
 import {
   addBranch,
+  fetchJobByJobId,
   getAllBranch,
   getAllJob,
 } from "../services/employeerServices";
@@ -41,12 +42,38 @@ export function DataProvider({ user, children }) {
     setJobs(res);
   };
 
+  const getJobCandidatesContext = async (jobId) => {
+    const res = await getJobCandidates(jobId);
+    return res;
+  };
+
+  const getJobContext = async (jobId) => {
+    const res = await fetchJobByJobId(jobId);
+    const arr = ["benefits", "jobType", "shift", "supplementPay"];
+
+    arr.map((item) => {
+      const set = arrayToSet(res[item]);
+      res[item] = set;
+    });
+    return res;
+  };
+
+  function arrayToSet(arr) {
+    const set = new Set();
+    for (let i = 0; i < arr.length; i++) {
+      set.add(arr[i]);
+    }
+    return set;
+  }
+
   const value = {
     addBranchContext,
     branches,
     getAllBranchesContext,
     getAllJobsContext,
+    getJobContext,
     jobs,
+    getJobCandidatesContext,
   };
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 }

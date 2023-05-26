@@ -17,17 +17,16 @@ export default function FindJob() {
     }
   }, []);
 
-  console.log(jobs);
   return (
     <>
       <div>
         {jobs.map((job) => (
           <div
+            key={job._id}
             onClick={() => {
               setSelectedJob(job);
               setOpen(true);
             }}
-            key={job._id}
             className="px-16 py-8 mx-8 my-4 rounded-lg bg-slate-50 flex justify-between"
           >
             <div>
@@ -40,7 +39,10 @@ export default function FindJob() {
               </div>
               <div>
                 {job.jobType.map((item) => (
-                  <div className="bg-gray-200 py-1 px-2 rounded-md">
+                  <div
+                    key={item}
+                    className="bg-gray-200 py-1 px-2 rounded-md inline-block mx-1"
+                  >
                     <i className="fa-solid fa-briefcase mr-2"></i>
                     {JOBTYPEOBJ[item]}
                   </div>

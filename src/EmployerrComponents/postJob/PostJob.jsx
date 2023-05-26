@@ -10,22 +10,40 @@ import {
 } from "../../constants/variables";
 import PayRate from "./PayRate";
 import { useUser } from "../../Context/userContext";
-import { addJob } from "../../services/employeerServices";
-import { useNavigate } from "react-router-dom";
+import { addJob, editJob } from "../../services/employeerServices";
+import { useNavigate, useParams } from "react-router-dom";
 import { JOBPAGE } from "../../constants/routes";
 
 export default function PostJob() {
-  const { branches, getAllBranchesContext } = useData();
-  const { setLoading, loading, user } = useUser();
+  const { jobId } = useParams();
+  const { branches, getAllBranchesContext, getJobContext } = useData();
+  const [editMode, setEditMode] = useState(false);
+  const { setLoading, addToast, user } = useUser();
   const [jobDetails, setJobDetails] = useState(JOBDETAILS);
   const [PDFFile, setPDFFile] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getAllBranchesContext();
+    setJobDetails(JOBDETAILS);
   }, []);
 
-  console.log(user);
+  useEffect(() => {
+    if (jobId) {
+      setEditMode(true);
+      setLoading(true);
+      const fetchfun = async () => {
+        const res = await getJobContext(jobId);
+        setJobDetails(res);
+        setLoading(false);
+      };
+
+      fetchfun();
+    }
+  }, [jobId]);
+
+  useEffect(() => {
+    getAllBranchesContext();
+  }, []);
 
   const handlePdf = (e) => {
     setLoading(true);
@@ -51,7 +69,6 @@ export default function PostJob() {
   const handleJobPost = async (e) => {
     e.preventDefault();
     setLoading(true);
-    console.log(jobDetails);
 
     let formData = { ...jobDetails };
 
@@ -63,31 +80,42 @@ export default function PostJob() {
     formData.profileId = user.profileId;
 
     try {
-      await addJob(formData);
+      if (editMode) {
+        await editJob(formData);
+        addToast("Job is successfuly Edited");
+        navigate(`/job/${jobId}`);
+      } else {
+        await addJob(formData);
+        addToast("Job is successfuly added");
+        navigate(JOBPAGE);
+      }
       setLoading(false);
-      navigate(JOBPAGE);
     } catch (error) {
       console.log(error);
+      addToast("error", true);
     }
   };
 
+  console.log(jobDetails, editMode);
+
   return (
-    <div className="grid grid-cols-1 gap-4 mt-4">
-      <div className="bg-gray-200 p-10 rounded-lg w-3/4 text-2xl font-bold">
+    <div className="grid grid-cols-1 gap-4 mt-4 mx-auto w-3/4">
+      <div className="bg-gray-200 p-10 rounded-lg  text-2xl font-bold">
         Provide Basic Information
       </div>
-      <div className="mb-5 bg-gray-200 p-10 rounded-lg w-3/4">
+      <div className="mb-5 bg-gray-200 p-10 rounded-lg ">
         <label for="email" className="block text-gray-700 font-bold mb-2">
           Job Title
         </label>
         <input
+          value={jobDetails.title}
           onChange={(e) =>
             setJobDetails({ ...jobDetails, title: e.target.value })
           }
           className="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
         />
       </div>
-      <div className="mb-5 bg-gray-200 p-10 rounded-lg w-3/4">
+      <div className="mb-5 bg-gray-200 p-10 rounded-lg ">
         <label for="email" className="block text-gray-700 font-bold mb-2">
           Where will Employee Will Report To work?
         </label>
@@ -107,7 +135,7 @@ export default function PostJob() {
         </select>
       </div>
 
-      <div className="mb-5 bg-gray-200 p-10 rounded-lg w-3/4 ">
+      <div className="mb-5 bg-gray-200 p-10 rounded-lg  ">
         <label for="email" className="block text-gray-700 font-bold mb-2">
           What is the job type?*
         </label>
@@ -128,7 +156,7 @@ export default function PostJob() {
         </div>
       </div>
 
-      <div className="mb-5 bg-gray-200 p-10 rounded-lg w-3/4">
+      <div className="mb-5 bg-gray-200 p-10 rounded-lg ">
         <label for="email" className="block text-gray-700 font-bold mb-2">
           What is the schedule for this job?
         </label>
@@ -149,12 +177,13 @@ export default function PostJob() {
         </div>
       </div>
 
-      <div className="mb-5 bg-gray-200 p-10 rounded-lg w-3/4">
+      <div className="mb-5 bg-gray-200 p-10 rounded-lg ">
         <div>
           <label for="email" className="block text-gray-700 font-bold mb-2">
             How many people do you want to hire for this opening?*
           </label>
           <input
+            value={jobDetails.opening}
             type="number"
             onChange={(e) =>
               setJobDetails({ ...jobDetails, opening: e.target.value })
@@ -182,11 +211,11 @@ export default function PostJob() {
         </div>
       </div>
 
-      <div className="mb-5 bg-gray-200 p-10 rounded-lg w-3/4">
+      <div className="mb-5 bg-gray-200 p-10 rounded-lg ">
         <PayRate jobDetails={jobDetails} setJobDetails={setJobDetails} />
       </div>
 
-      <div className="mb-5 bg-gray-200 p-10 rounded-lg w-3/4">
+      <div className="mb-5 bg-gray-200 p-10 rounded-lg ">
         <label for="email" className="block text-gray-700 font-bold mb-2">
           What is the schedule for this job?
         </label>
@@ -207,7 +236,7 @@ export default function PostJob() {
         </div>
       </div>
 
-      <div className="mb-5 bg-gray-200 p-10 rounded-lg w-3/4">
+      <div className="mb-5 bg-gray-200 p-10 rounded-lg ">
         <label for="email" className="block text-gray-700 font-bold mb-2">
           Are any of the following benefits offered?
         </label>
@@ -228,7 +257,7 @@ export default function PostJob() {
         </div>
       </div>
 
-      <div className="mb-5 bg-gray-200 p-10 rounded-lg w-3/4">
+      <div className="mb-5 bg-gray-200 p-10 rounded-lg ">
         <div>
           <label className="flex justify-between w-full  text-gray-700 font-bold mb-2">
             Job Description
@@ -243,7 +272,7 @@ export default function PostJob() {
         </div>
         <div className="fonr-bold text-xl text-center">or</div>
         <div className=" border-2 border-slate-300 p-5 mt-5">
-          <label className="border-2 border-slate-400 border-dotted w-full col-span-2 flex items-center justify-center">
+          <label className="border-2 border-slate-400 cursor-pointer border-dotted w-full col-span-2 flex items-center justify-center">
             <p className="text-blue-500">Upload PDF</p>
             <input className="sr-only" type="file" onChange={handlePdf} />
           </label>
@@ -275,7 +304,7 @@ export default function PostJob() {
         </div>
       </div>
 
-      <div class="flex justify-end mb-5 bg-gray-200 p-10 rounded-lg w-3/4 items-center">
+      <div class="flex justify-end mb-5 bg-gray-200 p-10 rounded-lg  items-center">
         <div className="font-bold text-blue-600 cursor-pointer mr-4">
           Show Preview
         </div>
@@ -283,7 +312,7 @@ export default function PostJob() {
           onClick={handleJobPost}
           class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
         >
-          Save
+          {editMode ? "Update" : "Save"}
         </button>
         <button class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
           Cancel

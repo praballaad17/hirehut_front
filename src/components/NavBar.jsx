@@ -7,7 +7,14 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { HOME, MESSAGES, PROFILE, PROFILEOVERVIEW } from "../constants/routes";
+import {
+  APPLIEDJOB,
+  HOME,
+  MESSAGES,
+  PROFILE,
+  PROFILEOVERVIEW,
+  SAVEDJOB,
+} from "../constants/routes";
 import { logout } from "../services/authenticationServices";
 import { useUser } from "../Context/userContext";
 
@@ -20,16 +27,8 @@ export default function NavBar() {
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <Link to={HOME} className="flex-shrink-0 flex items-center">
-            <img
-              className="block lg:hidden h-8 w-auto"
-              src="/img/logos/workflow-mark-on-white.svg"
-              alt="Hire Hut"
-            />
-            <img
-              className="hidden lg:block h-8 w-auto"
-              src="/img/logos/workflow-logo-on-white.svg"
-              alt="Hire Hut"
-            />
+            <img className="block lg:hidden h-8 w-auto" alt="Hire Hut" />
+            <img className="hidden lg:block h-8 w-auto" alt="Hire Hut" />
           </Link>
           <div className="flex items-center">
             <div className="inline-flex px-3 hover:bg-slate-300 h-full  items-center mx-2">
@@ -73,6 +72,18 @@ export default function NavBar() {
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white"
                     >
                       Edit Profile
+                    </Link>
+                    <Link
+                      to={SAVEDJOB}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white"
+                    >
+                      Saved Jobs
+                    </Link>
+                    <Link
+                      to={APPLIEDJOB}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white"
+                    >
+                      Applied
                     </Link>
                     <Link className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white">
                       Settings

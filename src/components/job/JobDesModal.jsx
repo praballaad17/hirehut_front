@@ -8,15 +8,13 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
 export default function JobDesModal({ open, close, job }) {
-  console.log(job);
-
   const type = "";
 
   if (!open) return;
   return ReactDom.createPortal(
     <>
       <div onClick={close} className="modal-box"></div>
-      <div className="modal rounded-t-xl">
+      <div className="modal rounded-t-xl overflow-y-scroll">
         <div className="flex w-full justify-end px-8 py-6" onClick={close}>
           <i class="fa-solid fa-xmark rounded-full bg-slate-100 p-2"></i>
         </div>
@@ -42,7 +40,7 @@ export default function JobDesModal({ open, close, job }) {
               </TabList>
 
               <TabPanel>
-                <JobOverviewModal />
+                <JobOverviewModal job={job} />
               </TabPanel>
 
               <TabPanel>
@@ -50,7 +48,22 @@ export default function JobDesModal({ open, close, job }) {
               </TabPanel>
             </Tabs>
 
-            <div className="col-span-1">about {job.profileId.name}</div>
+            <div className="col-span-1">
+              <div className="border border-slate-300 p-3">
+                <h2>about {job.profileId.name}</h2>
+                <h3 className="font-bold">Website</h3>
+                <p className="text-blue-600 hover:underline">
+                  {job.profileId.website}
+                </p>
+                <h3 className="font-bold">Location</h3>
+                <p className="">{job.profileId.location}</p>
+                <h3 className="font-bold">Company Size</h3>
+                <p className="">{job.profileId.employeecount} people</p>
+              </div>
+              <div className="border border-slate-300 p-3">
+                <h2>Jobs At {job.profileId.name}</h2>
+              </div>
+            </div>
           </div>
         </div>
       </div>

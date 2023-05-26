@@ -43,7 +43,6 @@ export const registerUser = async (email, password, isEmployeer) => {
       password,
       isEmployeer,
     });
-    console.log(response.data.token);
     localStorage.setItem(tokenKey, response.data.token);
     return response.data;
   } catch (err) {
