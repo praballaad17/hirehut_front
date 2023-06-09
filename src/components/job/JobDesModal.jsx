@@ -16,7 +16,7 @@ export default function JobDesModal({ open, close, job }) {
       <div onClick={close} className="modal-box"></div>
       <div className="modal rounded-t-xl overflow-y-scroll">
         <div className="flex w-full justify-end px-8 py-6" onClick={close}>
-          <i class="fa-solid fa-xmark rounded-full bg-slate-100 p-2"></i>
+          <i className="fa-solid fa-xmark rounded-full bg-slate-100 p-2"></i>
         </div>
         <div className="px-44 capitalize">
           <div>

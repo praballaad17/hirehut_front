@@ -6,7 +6,7 @@ export default function JobSearch() {
     what: "",
     where: "",
   });
-  const { result, loading, error } = useSearch(
+  const { result, loading, error, searchFun } = useSearch(
     query,
     1,
     "jobseeker/search-jobs"
@@ -32,7 +32,10 @@ export default function JobSearch() {
           placeholder="City, State, Pincode"
         />
       </div>
-      <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300 ease-in-out focus:outline-none focus:ring focus:ring-blue-300">
+      <button
+        onClick={searchFun}
+        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300 ease-in-out focus:outline-none focus:ring focus:ring-blue-300"
+      >
         Find
       </button>
     </div>

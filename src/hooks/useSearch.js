@@ -13,7 +13,7 @@ export default function useSearch(query, pageNumber, searchField) {
     setResult([]);
   }, [query]);
 
-  useEffect(() => {
+  const searchFun = () => {
     if (!query) {
       setLoading(false);
       return;
@@ -42,7 +42,7 @@ export default function useSearch(query, pageNumber, searchField) {
         });
       return () => cancel();
     }
-  }, [query, pageNumber]);
+  };
 
-  return { result, loading, error };
+  return { result, loading, error, searchFun };
 }

@@ -16,6 +16,7 @@ import { DataProvider } from "../Context/EmployeerDataContext";
 import SingleJob from "../EmployerrComponents/postJob/SingleJob";
 import Candidate from "../EmployerrComponents/Candidate/Candidate";
 import SingleJobCand from "../EmployerrComponents/Candidate/SingleJobCand";
+import CandidateDetail from "../EmployerrComponents/Candidate/CandidateDetail";
 
 export default function EmployerDash({ user }) {
   if (!user) return <Navigate to={`/authentication${ROUTES.LOGIN}`} />;
@@ -39,6 +40,10 @@ export default function EmployerDash({ user }) {
                 <Route path={`${ROUTES.JOBPAGE}`} element={<JobPage />} />
                 <Route path={`${ROUTES.SINGLEJOB}`} element={<SingleJob />} />
                 <Route path={`${ROUTES.CANDIDATES}`} element={<Candidate />} />
+                <Route
+                  path={`${ROUTES.CANDIDATEDETAIL}`}
+                  element={<CandidateDetail />}
+                />
                 <Route
                   path={`${ROUTES.SINGLECANDIDATES}`}
                   element={<SingleJobCand />}

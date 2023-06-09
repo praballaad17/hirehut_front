@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useData } from "../../Context/EmployeerDataContext";
 import { Link } from "react-router-dom";
 
 export default function Candidate() {
   const { getAllJobsContext, jobs } = useData();
+
+  console.log(jobs);
+
+  useEffect(() => {
+    getAllJobsContext();
+  }, []);
 
   return (
     <div className="p-4">
@@ -26,7 +32,7 @@ export default function Candidate() {
           </div>
         ) : (
           <div>
-            <div className="">No Application availabil</div>
+            <div className="">No Application availabile</div>
           </div>
         )}
       </div>

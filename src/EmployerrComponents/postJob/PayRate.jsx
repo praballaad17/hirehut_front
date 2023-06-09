@@ -43,9 +43,12 @@ export default function PayRate({ jobDetails, setJobDetails }) {
         </div>
 
         {type === "range" ? (
-          <div class="mb-4 grid grid-cols-5 gap-2">
+          <div className="mb-4 grid grid-cols-5 gap-2">
             <div className="col-span-2">
-              <label for="address" class="block text-gray-700 font-bold mb-2">
+              <label
+                for="address"
+                className="block text-gray-700 font-bold mb-2"
+              >
                 Starting
               </label>
               <input
@@ -56,13 +59,16 @@ export default function PayRate({ jobDetails, setJobDetails }) {
                 type="number"
                 id="name"
                 name="name"
-                class="w-full px-4 py-2 rounded-lg border border-gray-400 focus:outline-none focus:border-blue-500"
+                className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:outline-none focus:border-blue-500"
                 required
               />
             </div>
 
             <div className="col-span-2">
-              <label for="address" class="block text-gray-700 font-bold mb-2">
+              <label
+                for="address"
+                className="block text-gray-700 font-bold mb-2"
+              >
                 Maximum:
               </label>
               <input
@@ -71,13 +77,13 @@ export default function PayRate({ jobDetails, setJobDetails }) {
                 onChange={(e) =>
                   setRange({ ...range, end: parseInt(e.target.value) })
                 }
-                class="w-full px-4 py-2 rounded-lg border border-gray-400 focus:outline-none focus:border-blue-500"
+                className="w-full px-4 py-2 rounded-lg border border-gray-400 focus:outline-none focus:border-blue-500"
               />
             </div>
           </div>
         ) : (
           <div className="col-span-2">
-            <label for="address" class="block text-gray-700 font-bold mb-2">
+            <label for="address" className="block text-gray-700 font-bold mb-2">
               {type === "strting amount"
                 ? "strting amount"
                 : type === "maximum amount"
@@ -91,7 +97,7 @@ export default function PayRate({ jobDetails, setJobDetails }) {
               }
               type="number"
               placeholder="$"
-              class="w-96 px-4 py-2 rounded-lg border border-gray-400 focus:outline-none focus:border-blue-500"
+              className="w-96 px-4 py-2 rounded-lg border border-gray-400 focus:outline-none focus:border-blue-500"
               required
             />
           </div>

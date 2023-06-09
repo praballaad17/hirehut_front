@@ -15,6 +15,7 @@ export const SINGLEJOB = "/job/:jobId";
 
 export const CANDIDATES = "/candidate";
 export const SINGLECANDIDATES = "/candidate/:jobId";
+export const CANDIDATEDETAIL = "/candidate-details/:candidateId";
 
 export const PROFILE = "/profile";
 export const MESSAGES = "/messages";

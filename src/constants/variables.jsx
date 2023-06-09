@@ -30,8 +30,17 @@ export const EXPFORM = {
   company: "",
   startDate: "",
   endDate: "",
+  isCurrent: false,
   title: "",
   description: "",
+};
+
+export const EDUFORM = {
+  education: "",
+  granduation: "",
+  degree: "",
+  gpa: "",
+  max: "",
 };
 
 export const PRONOUN = [
@@ -51,6 +60,14 @@ export const GENDER = [
   { data: "prefer not to say", key: "nill" },
 ];
 
+export const GENDEROBJ = {
+  ma: "male",
+  fe: "female",
+  nb: "non-binary",
+  tr: "transgender",
+  nill: "prefer not to say",
+};
+
 export const RACE = [
   { data: "American Indian or Alaska Native", key: "ai" },
   { data: "Asian", key: "as" },
@@ -68,8 +85,26 @@ export const RACE = [
   { data: "Prefer not to say", key: "ns" },
 ];
 
-export const FORM = {
-  img: {},
+export const JOBSEEKERFORM = {
+  name: "",
+  city: "",
+  state: "AB",
+  profileUrl: "",
+  twitter: "",
+  github: "",
+  linkedIn: "",
+  portfolio: "",
+  workexperiance: [],
+  education: [],
+  skills: [],
+  achivements: "",
+  pronoun: "he",
+  gender: "ma",
+  race: new Set(),
+  bio: "",
+  primaryRole: "",
+  roles: [],
+  experiance: "",
 };
 
 export const EMPLOYEERROLES = ["founder", "hiring manager", "team member"];
@@ -95,15 +130,19 @@ export const COMPANYDETAILS = {
 };
 
 export const SIDEBAR = [
-  { data: "jobs", icon: <i class="fa-solid fa-briefcase"></i>, link: JOBPAGE },
-  { data: "campaign", icon: <i class="fa-solid fa-bullhorn"></i> },
+  {
+    data: "jobs",
+    icon: <i className="fa-solid fa-briefcase"></i>,
+    link: JOBPAGE,
+  },
+  { data: "campaign", icon: <i className="fa-solid fa-bullhorn"></i> },
   {
     data: "candidates",
-    icon: <i class="fa-solid fa-users"></i>,
+    icon: <i className="fa-solid fa-users"></i>,
     link: CANDIDATES,
   },
-  { data: "search resume", icon: <i class="fa-solid fa-file"></i> },
-  { data: "Interviews", icon: <i class="fa-solid fa-calendar-days"></i> },
+  { data: "search resume", icon: <i className="fa-solid fa-file"></i> },
+  { data: "Interviews", icon: <i className="fa-solid fa-calendar-days"></i> },
 ];
 
 export const BRANCHFORM = {
@@ -287,3 +326,17 @@ export const JOBDETAILS = {
     end: 0,
   },
 };
+
+export const YEARSOFEXPERIANCE = [
+  { data: "0" },
+  { data: "1" },
+  { data: "2" },
+  { data: "3" },
+  { data: "4" },
+  { data: "5" },
+  { data: "6" },
+  { data: "7" },
+  { data: "8" },
+  { data: "9" },
+  { data: "10+" },
+];

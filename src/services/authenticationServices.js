@@ -91,6 +91,7 @@ export const changePassword = async (data) => {
 };
 
 export async function logout() {
-  localStorage.removeItem(tokenKey);
+  // localStorage.removeItem(tokenKey);
+  localStorage.clear();
   window.location.reload(false);
 }

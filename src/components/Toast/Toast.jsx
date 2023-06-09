@@ -17,12 +17,12 @@ export default function ToastItem({ toast, idx }) {
         <div className="rounded-full text-2xl text-white h-8 w-8 flex items-center justify-center">
           {toast.isError ? (
             <i
-              class="fa-solid fa-circle-exclamation"
+              className="fa-solid fa-circle-exclamation"
               style={{ color: "#ffffff" }}
             ></i>
           ) : (
             <i
-              class="fa-regular fa-circle-check"
+              className="fa-regular fa-circle-check"
               style={{ color: "#03b300" }}
             ></i>
           )}

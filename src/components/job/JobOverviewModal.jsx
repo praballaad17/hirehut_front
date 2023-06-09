@@ -25,13 +25,14 @@ export default function JobOverviewModal({ job }) {
       const res = checkJobApliedContext(job._id);
       const isSaved = checkJobSavedContext(job._id);
       setSaved(isSaved);
+      console.log("is applied", res);
       setApplied(res);
     } catch (error) {}
   }, []);
 
   const handleApply = async () => {
     try {
-      const res = await applyJob(user.id, job._id, "applied");
+      // const res = await applyJob(user.id, job._id, "applied");
       applyJobcontext(job._id);
       addToast(`Applied for ${job.title} at ${job.profileId.name}`);
     } catch (error) {
@@ -39,6 +40,8 @@ export default function JobOverviewModal({ job }) {
       console.log(error);
     }
   };
+
+  console.log(applied);
 
   return (
     <div className="grid grid-cols-3">

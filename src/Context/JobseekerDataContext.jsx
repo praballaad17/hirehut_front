@@ -11,6 +11,7 @@ import {
   applyJob,
   deleteSaveJob,
   fetchAppliedJob,
+  fetchJobSeekerProfile,
   fetchSaveJob,
   saveJob,
   searchJobs,
@@ -25,6 +26,7 @@ export function useJobSeeker() {
 export function JobseekerDataProvider({ user, children }) {
   const { addToast } = useUser();
   const [jobs, setJobs] = useState([]);
+  const [profile, setProfile] = useState();
   const [savedJobs, setSavedJobs] = useState([]);
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [applied, setApplied] = useLocalStorage("applied", {});
@@ -33,6 +35,16 @@ export function JobseekerDataProvider({ user, children }) {
   const getAllJobsContext = async () => {
     const res = await searchJobs(user.id);
     setJobs(res);
+  };
+
+  const fetchJobseekerProfileContext = async () => {
+    try {
+      const res = await fetchJobSeekerProfile(user.id);
+      setProfile(res);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const fetchSavedJobsContext = async () => {
@@ -74,6 +86,7 @@ export function JobseekerDataProvider({ user, children }) {
   };
 
   const checkJobApliedContext = (jobId) => {
+    console.log(jobId);
     if (applied[jobId]) {
       return true;
     } else return false;
@@ -90,6 +103,7 @@ export function JobseekerDataProvider({ user, children }) {
     jobs,
     savedJobs,
     appliedJobs,
+    profile,
     applyJobcontext,
     checkJobApliedContext,
     addToSavedJobsContext,
@@ -97,6 +111,7 @@ export function JobseekerDataProvider({ user, children }) {
     fetchSavedJobsContext,
     checkJobSavedContext,
     fetchAppliedJobContext,
+    fetchJobseekerProfileContext,
   };
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;
 }

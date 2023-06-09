@@ -26,7 +26,7 @@ export default function JobPage() {
           Add Job
         </Link>
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between px-4">
         <div className="flex items-center">
           <input
             placeholder="Seaech JobTitle"

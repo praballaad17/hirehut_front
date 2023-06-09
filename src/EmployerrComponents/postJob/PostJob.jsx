@@ -96,8 +96,6 @@ export default function PostJob() {
     }
   };
 
-  console.log(jobDetails, editMode);
-
   return (
     <div className="grid grid-cols-1 gap-4 mt-4 mx-auto w-3/4">
       <div className="bg-gray-200 p-10 rounded-lg  text-2xl font-bold">
@@ -286,7 +284,7 @@ export default function PostJob() {
                 ) : (
                   <>
                     <i
-                      class="fa-solid fa-circle-check"
+                      className="fa-solid fa-circle-check"
                       style={{ color: "#00d123" }}
                     ></i>{" "}
                     "File Selected"
@@ -304,17 +302,17 @@ export default function PostJob() {
         </div>
       </div>
 
-      <div class="flex justify-end mb-5 bg-gray-200 p-10 rounded-lg  items-center">
+      <div className="flex justify-end mb-5 bg-gray-200 p-10 rounded-lg  items-center">
         <div className="font-bold text-blue-600 cursor-pointer mr-4">
           Show Preview
         </div>
         <button
           onClick={handleJobPost}
-          class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
         >
           {editMode ? "Update" : "Save"}
         </button>
-        <button class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
+        <button className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
           Cancel
         </button>
       </div>
