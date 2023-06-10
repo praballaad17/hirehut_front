@@ -10,9 +10,14 @@ import noImg from "../../assets/no-job.jpg";
 export default function JobPage() {
   const { getAllJobsContext, jobs } = useData();
 
-  const { addToast } = useUser();
+  const { addToast, setLoading } = useUser();
   useEffect(() => {
-    getAllJobsContext();
+    const fetch = async () => {
+      setLoading(true);
+      await getAllJobsContext();
+      setLoading(false);
+    };
+    fetch();
   }, []);
 
   return (
