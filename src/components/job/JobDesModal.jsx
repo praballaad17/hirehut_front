@@ -52,9 +52,14 @@ export default function JobDesModal({ open, close, job }) {
               <div className="border border-slate-300 p-3">
                 <h2>about {job.profileId.name}</h2>
                 <h3 className="font-bold">Website</h3>
-                <p className="text-blue-600 hover:underline">
+                <a
+                  href={job.profileId.website}
+                  target="_blank"
+                  className="text-blue-600 hover:underline"
+                  rel="noopener noreferrer"
+                >
                   {job.profileId.website}
-                </p>
+                </a>
                 <h3 className="font-bold">Location</h3>
                 <p className="">{job.profileId.location}</p>
                 <h3 className="font-bold">Company Size</h3>

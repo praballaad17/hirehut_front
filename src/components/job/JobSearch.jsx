@@ -42,6 +42,8 @@ export default function JobSearch() {
     }
   };
 
+  console.log(result);
+
   return (
     <div className="w-full flex flex-col items-center">
       <div className="flex">
@@ -71,25 +73,25 @@ export default function JobSearch() {
         </button>
       </div>
       {result.length ? (
-        <div className="w-full flex flex-col items-center">
+        <div className="w-full flex flex-col items-center ">
           {result.map((job) => (
             <div
               key={job._id}
-              className="w-3/4 rounded-lg border border-slate-400 my-4 p-4"
+              className="w-3/4 rounded-lg border border-slate-400 bg-gray-100 my-4 p-4"
             >
               <div
                 onClick={() => {
                   setSelectedJob(job);
                   setOpen(true);
                 }}
-                className="capitalize font-bold text-xl hover:underline"
+                className="capitalize font-bold text-xl hover:underline cursor-pointer"
               >
                 {job.title}
               </div>
               <div className="capitalize text-md">
                 {job.city}, {job.state}
               </div>
-              <div className="">{job.opening}</div>
+              <div className="">{job.opening} Vacancies</div>
             </div>
           ))}
         </div>

@@ -25,7 +25,6 @@ export default function JobOverviewModal({ job }) {
       const res = checkJobApliedContext(job._id);
       const isSaved = checkJobSavedContext(job._id);
       setSaved(isSaved);
-      console.log("is applied", res);
       setApplied(res);
     } catch (error) {}
   }, []);
@@ -55,7 +54,7 @@ export default function JobOverviewModal({ job }) {
             </div>
           ))}
         </div>
-        <p>{job.description}</p>
+        <p className="whitespace-pre-wrap">{job.description}</p>
       </div>
       <div>
         <div>

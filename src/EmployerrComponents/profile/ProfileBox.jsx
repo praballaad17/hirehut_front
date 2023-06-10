@@ -8,7 +8,8 @@ import { updateProfile } from "../../services/profileServices";
 import { useUser } from "../../Context/userContext";
 
 export default function ProfileBox() {
-  const { user, addToast, setLoading, profile } = useUser();
+  const { user, addToast, setLoading, profile, getUserProfileContext } =
+    useUser();
   const [form, setForm] = useState(COMPANYDETAILS);
   const [logo, setLogo] = useState("");
 
@@ -19,6 +20,20 @@ export default function ProfileBox() {
       }
     }
   }
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        setLoading(true);
+        await getUserProfileContext();
+        setLoading(false);
+      } catch (error) {
+        addToast("error fetching profile", true);
+      }
+    };
+    fetch();
+  }, []);
+
   useEffect(() => {
     copyFields(profile, form);
   }, [profile]);
@@ -28,10 +43,12 @@ export default function ProfileBox() {
     try {
       const res = await updateProfile(form, user.id);
       addToast("Profile is updated!");
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      addToast("error updating profile", true);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const reset = () => {
