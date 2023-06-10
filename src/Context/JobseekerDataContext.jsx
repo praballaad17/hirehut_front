@@ -14,7 +14,7 @@ import {
   fetchJobSeekerProfile,
   fetchSaveJob,
   saveJob,
-  searchJobs,
+  filterJobSearch,
 } from "../services/jobseekerServices";
 import useLocalStorage from "../hooks/useLocalStorage";
 
@@ -33,13 +33,13 @@ export function JobseekerDataProvider({ user, children }) {
   const [saved, setSaved] = useLocalStorage("saved", {});
 
   const getAllJobsContext = async () => {
-    const res = await searchJobs(user.id);
+    const res = await filterJobSearch({ what: "", where: "all" }, 1);
     setJobs(res);
   };
 
   const fetchJobseekerProfileContext = async () => {
     try {
-      const res = await fetchJobSeekerProfile(user.id);
+      const res = await fetchJobSeekerProfile({ what: "", where: "all" }, 1, 5);
       setProfile(res);
       return res;
     } catch (error) {

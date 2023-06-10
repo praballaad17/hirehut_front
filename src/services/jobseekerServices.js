@@ -12,6 +12,18 @@ export const fetchJobSeekerProfile = async (userId) => {
   }
 };
 
+//
+export const filterJobSearch = async (query, page, limit) => {
+  try {
+    const response = await axios.get(`${apiEndpoint}/search-jobs`, {
+      params: { query, page, limit: 5 },
+    });
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 //edit profile
 export const postJobseekerProfile = async (userId, form) => {
   try {
