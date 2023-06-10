@@ -79,7 +79,7 @@ export default function SingleJob() {
               </div>
             ))}
           </div>
-          <p>{job.description}</p>
+          <p className="mt-4 whitespace-pre-wrap ">{job.description}</p>
         </div>
         <div>
           <div className="mt-5">
