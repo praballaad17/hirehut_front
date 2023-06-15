@@ -57,7 +57,7 @@ export default function CandidateCard({ candidate }) {
             <a
               className="mx-2 text-lg hover:text-blue-500"
               target="_blank"
-              href={candidate.userId.profileId.twitter}
+              href={`${candidate.userId.profileId.twitter}`}
               rel="noreferrer"
             >
               <i class="fa-brands fa-twitter"></i>
@@ -68,7 +68,8 @@ export default function CandidateCard({ candidate }) {
           {candidate.userId.profileId.linkedIn.length ? (
             <a
               className="mx-2 text-lg hover:text-blue-900"
-              href={candidate.userId.profileId.linkedIn}
+              target="_blank"
+              href={`${candidate.userId.profileId.linkedIn}`}
             >
               <i class="fa-brands fa-linkedin"></i>
             </a>
@@ -78,7 +79,8 @@ export default function CandidateCard({ candidate }) {
           {candidate.userId.profileId.github.length ? (
             <a
               className="mx-2 text-lg hover:text-green-600"
-              href={candidate.userId.profileId.github}
+              target="_blank"
+              href={`${candidate.userId.profileId.github}`}
             >
               <i class="fa-brands fa-github"></i>
             </a>
@@ -88,7 +90,8 @@ export default function CandidateCard({ candidate }) {
           {candidate.userId.profileId.portfolio.length ? (
             <a
               className="mx-2 text-lg hover:text-yellow-400"
-              href={candidate.userId.profileId.portfolio}
+              target="_blank"
+              href={`${candidate.userId.profileId.portfolio}`}
             >
               <i class="fa-solid fa-user"></i>
             </a>

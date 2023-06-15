@@ -53,7 +53,7 @@ export default function JobDesModal({ open, close, job }) {
                 <h2>about {job.profileId.name}</h2>
                 <h3 className="font-bold">Website</h3>
                 <a
-                  href={job.profileId.website}
+                  href={`https://${job.profileId.website}`}
                   target="_blank"
                   className="text-blue-600 hover:underline"
                   rel="noopener noreferrer"

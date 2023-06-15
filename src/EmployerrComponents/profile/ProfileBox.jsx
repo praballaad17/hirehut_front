@@ -6,6 +6,7 @@ import {
 } from "../../constants/variables";
 import { updateProfile } from "../../services/profileServices";
 import { useUser } from "../../Context/userContext";
+import { processWebsiteInput } from "../../constants/utils";
 
 export default function ProfileBox() {
   const { user, addToast, setLoading, profile, getUserProfileContext } =
@@ -53,6 +54,13 @@ export default function ProfileBox() {
 
   const reset = () => {
     setForm(COMPANYDETAILS);
+  };
+
+  const handleWebsite = (e) => {
+    e.preventDefault();
+
+    const res = processWebsiteInput(e.target.value);
+    setForm({ ...form, website: res });
   };
 
   return (
@@ -113,8 +121,9 @@ export default function ProfileBox() {
           Website
         </label>
         <input
+          placeholder="https://"
           value={form.website}
-          onChange={(e) => setForm({ ...form, website: e.target.value })}
+          onChange={handleWebsite}
           className="border border-gray-400 p-2 w-96 rounded-lg focus:outline-none focus:border-blue-500"
         />
       </div>

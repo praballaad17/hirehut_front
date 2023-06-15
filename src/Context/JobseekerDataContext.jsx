@@ -39,7 +39,7 @@ export function JobseekerDataProvider({ user, children }) {
 
   const fetchJobseekerProfileContext = async () => {
     try {
-      const res = await fetchJobSeekerProfile({ what: "", where: "all" }, 1, 5);
+      const res = await fetchJobSeekerProfile(user.id);
       setProfile(res);
       return res;
     } catch (error) {

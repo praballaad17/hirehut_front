@@ -14,6 +14,7 @@ import { updateProfile } from "../../services/profileServices";
 import { useUser } from "../../Context/userContext";
 import { useJobSeeker } from "../../Context/JobseekerDataContext";
 import { postJobseekerProfile } from "../../services/jobseekerServices";
+import { processWebsiteInput } from "../../constants/utils";
 
 export default function ProfileBox() {
   const { user, loading, setLoading, addToast } = useUser();
@@ -51,8 +52,6 @@ export default function ProfileBox() {
     fetch();
   }, []);
 
-  console.log(form);
-
   // set cities according to state
   useEffect(() => {
     setCities(CITIES[form.state]);
@@ -68,7 +67,6 @@ export default function ProfileBox() {
 
       try {
         const res = await updateProfile(formdata, user.id);
-        console.log(res);
         setForm({ ...form, img: img });
         setImage(URL.createObjectURL(img));
         setLoading(false);
@@ -95,7 +93,6 @@ export default function ProfileBox() {
 
     formData.race = [...form.race];
 
-    console.log(formData);
     try {
       const res = await postJobseekerProfile(user.id, formData);
       setIsEdit(false);
@@ -148,6 +145,15 @@ export default function ProfileBox() {
     setForm({
       ...form,
       [property]: newField,
+    });
+  };
+
+  const handleWebsite = (e, field) => {
+    e.preventDefault();
+    const res = processWebsiteInput(e.target.value);
+    setForm({
+      ...form,
+      [field]: res,
     });
   };
 
@@ -320,7 +326,7 @@ export default function ProfileBox() {
             <input
               readOnly={!isEdit}
               value={form.portfolio}
-              onChange={(e) => setForm({ ...form, portfolio: e.target.value })}
+              onChange={(e) => handleWebsite(e, "portfolio")}
               placeholder="https://domain.com/"
               className="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
             />
@@ -332,7 +338,7 @@ export default function ProfileBox() {
             <input
               readOnly={!isEdit}
               value={form.linkedIn}
-              onChange={(e) => setForm({ ...form, linkedIn: e.target.value })}
+              onChange={(e) => handleWebsite(e, "linkedIn")}
               placeholder="https://linkedin/username"
               className="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
             />
@@ -342,7 +348,7 @@ export default function ProfileBox() {
             <input
               readOnly={!isEdit}
               value={form.github}
-              onChange={(e) => setForm({ ...form, github: e.target.value })}
+              onChange={(e) => handleWebsite(e, "github")}
               placeholder="https://github.com/username"
               className="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
             />
@@ -354,7 +360,7 @@ export default function ProfileBox() {
             <input
               readOnly={!isEdit}
               value={form.twitter}
-              onChange={(e) => setForm({ ...form, twitter: e.target.value })}
+              onChange={(e) => handleWebsite(e, "twitter")}
               placeholder="https://twitter.com/username"
               className="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-500"
             />
