@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.dash-box {
+  height: 100vh;
+}
+
 .loading {
   display: inline-block;
   position: relative;

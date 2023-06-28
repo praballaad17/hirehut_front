@@ -17,6 +17,7 @@ import SingleJob from "../EmployerrComponents/postJob/SingleJob";
 import Candidate from "../EmployerrComponents/Candidate/Candidate";
 import SingleJobCand from "../EmployerrComponents/Candidate/SingleJobCand";
 import CandidateDetail from "../EmployerrComponents/Candidate/CandidateDetail";
+import Message from "../commonComponents/messages/Message";
 
 export default function EmployerDash({ user }) {
   if (!user) return <Navigate to={`/authentication${ROUTES.LOGIN}`} />;
@@ -25,8 +26,8 @@ export default function EmployerDash({ user }) {
     <DataProvider user={user}>
       <div>
         <NavBar />
-        <div className="pt-16"></div>
-        <div className="flex ">
+        {/* <div className="pt-16"></div> */}
+        <div className="pt-16 flex dash-box">
           <div className="">
             <SideBar />
           </div>
@@ -36,6 +37,7 @@ export default function EmployerDash({ user }) {
                 {/* <Route path={`${ROUTES.MESSAGES}`} element={<Message />} /> */}
                 <Route path={`${ROUTES.PROFILE}/*`} element={<Profile />} />
                 <Route path={`${ROUTES.ADDJOB}`} element={<PostJob />} />
+                <Route path={`${ROUTES.MESSAGES}`} element={<Message />} />
                 <Route path={`${ROUTES.EDITJOB}`} element={<PostJob />} />
                 <Route path={`${ROUTES.JOBPAGE}`} element={<JobPage />} />
                 <Route path={`${ROUTES.SINGLEJOB}`} element={<SingleJob />} />

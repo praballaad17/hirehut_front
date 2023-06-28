@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import NavBar from "../components/NavBar";
-import Message from "../components/messages/Message";
+import Message from "../commonComponents/messages/Message";
 import * as ROUTES from "../constants/routes";
 import {
   BrowserRouter as Router,
@@ -19,21 +19,26 @@ import AppliedJob from "../components/job/AppliedJob";
 export default function Dashboard({ user }) {
   if (!user) return <Navigate to={`/authentication${ROUTES.LOGIN}`} />;
 
+  const dashPropery = {
+    height: "calc(100vh - 50px)",
+  };
+
   return (
     <JobseekerDataProvider user={user}>
       <div className="w-screen h-screen ">
         <NavBar />
-        <div className="pt-20"></div>
-        <Suspense fallback={<MainLoader />}>
-          <Routes>
-            <Route path={`${ROUTES.MESSAGES}`} element={<Message />} />
-            <Route path={`${ROUTES.PROFILE}/*`} element={<Profile />} />
-            <Route path={`${ROUTES.FINDJOB}/*`} element={<FindJob />} />
-            <Route path={`${ROUTES.HOME}`} element={<Home />} />
-            <Route path={`${ROUTES.SAVEDJOB}`} element={<SavedJobs />} />
-            <Route path={`${ROUTES.APPLIEDJOB}`} element={<AppliedJob />} />
-          </Routes>
-        </Suspense>
+        <div className="pt-20 dash-box">
+          <Suspense fallback={<MainLoader />}>
+            <Routes>
+              <Route path={`${ROUTES.MESSAGES}`} element={<Message />} />
+              <Route path={`${ROUTES.PROFILE}/*`} element={<Profile />} />
+              <Route path={`${ROUTES.FINDJOB}/*`} element={<FindJob />} />
+              <Route path={`${ROUTES.HOME}`} element={<Home />} />
+              <Route path={`${ROUTES.SAVEDJOB}`} element={<SavedJobs />} />
+              <Route path={`${ROUTES.APPLIEDJOB}`} element={<AppliedJob />} />
+            </Routes>
+          </Suspense>
+        </div>
       </div>
     </JobseekerDataProvider>
   );

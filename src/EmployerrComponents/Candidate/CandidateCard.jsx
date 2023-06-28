@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { acceptJobApplication } from "../../services/employeerServices";
 
-export default function CandidateCard({ candidate }) {
+export default function CandidateCard({ candidate, jobId }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleContent = () => {
@@ -100,6 +101,15 @@ export default function CandidateCard({ candidate }) {
           )}
         </div>
         <div>{renderContent()}</div>
+        <div>
+          <button
+            onClick={() => acceptJobApplication(jobId, candidate.userId._id)}
+            className="rounded-lg border border-green-500 text-green-500 px-4 py-2 hover:bg-green-500 hover:text-white"
+          >
+            <i className="fa-solid fa-check mr-2"></i>
+            accept
+          </button>
+        </div>
       </div>
     </div>
   );

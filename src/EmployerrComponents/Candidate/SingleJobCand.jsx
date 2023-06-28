@@ -24,7 +24,6 @@ export default function SingleJobCand() {
     fetch();
   }, [jobId]);
 
-  console.log(candidates);
   return (
     <div className="m-4">
       <div>
@@ -36,7 +35,7 @@ export default function SingleJobCand() {
       {candidates.length ? (
         <div className="grid grid-cols-3 gap-4 my-4">
           {candidates.map((candidate) => (
-            <CandidateCard candidate={candidate} />
+            <CandidateCard candidate={candidate} jobId={jobId} />
           ))}
         </div>
       ) : (

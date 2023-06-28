@@ -85,3 +85,15 @@ export const fetchJobByJobId = async (jobId) => {
     return error;
   }
 };
+
+//accpet job application
+export const acceptJobApplication = async (jobId, candidateId) => {
+  try {
+    const response = await axios.put(
+      `${apiEndpoint}/accept-candidates/${jobId}/${candidateId}`
+    );
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
