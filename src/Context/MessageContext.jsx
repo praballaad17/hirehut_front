@@ -21,6 +21,7 @@ export function MessageProvider({ user, children }) {
     if (socket == null) return;
 
     socket.on("message", ({ conversationId, message, sender }) => {
+      console.log("recive message", message);
       addMessage(message, conversationId, sender, user.id);
     });
   }, [socket]);
@@ -34,8 +35,12 @@ export function MessageProvider({ user, children }) {
   };
 
   const selectConversation = (conversationId) => {
-    const conversation = messages[conversationId];
-    setSelectedConv(conversation);
+    if (messages.hasOwnProperty(conversationId)) {
+      const conversation = messages[conversationId];
+      setSelectedConv(conversation);
+    } else {
+      fetchMessagesContext(conversationId);
+    }
   };
 
   const fetchConversationContext = async () => {
@@ -47,7 +52,7 @@ export function MessageProvider({ user, children }) {
     }
   };
 
-  const addMessage = (message, conversationId, sender, receiver) => {
+  const addMessage = async (message, conversationId, sender, receiver) => {
     const newMessage = {
       content: message,
       conversation: conversationId,
@@ -55,22 +60,38 @@ export function MessageProvider({ user, children }) {
       sender,
       receiver,
     };
-    setSelectedConv([...selectedConv, newMessage]);
-    setMessages({
-      ...messages,
-      [conversationId]: [...messages[conversationId], newMessage],
-    });
+    if (
+      selectedConv.length &&
+      selectedConv[0].conversation === conversationId
+    ) {
+      setSelectedConv([...selectedConv, newMessage]);
+    }
+
+    if (messages.hasOwnProperty(conversationId)) {
+      let updateConv = messages[conversationId];
+      updateConv = [...updateConv, newMessage];
+
+      setMessages({
+        ...messages,
+        [conversationId]: updateConv,
+      });
+    } else {
+      // await fetchMessagesContext(conversationId);
+    }
   };
 
   const fetchMessagesContext = async (conversationId) => {
     if (!conversationId) return;
     try {
       const res = await fetchMessages(conversationId);
-      setMessages({
-        ...messages,
-        [conversationId]: res,
-      });
-      setSelectedConv(res);
+      console.log(res);
+      if (res) {
+        setMessages({
+          ...messages,
+          [conversationId]: res,
+        });
+        setSelectedConv(res);
+      }
     } catch (error) {
       console.log(error);
     }

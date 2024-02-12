@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useMessage } from "../../Context/MessageContext";
 import { processTimestamp } from "../../constants/utils";
 import nomessage from "../../assets/message.jpg";
@@ -6,11 +6,23 @@ import nomessage from "../../assets/message.jpg";
 export default function MessageBox({ conversation }) {
   const { selectedConv, sendMessage, fetchMessagesContext } = useMessage();
   const [message, setMessage] = useState("");
+  const messageContainerRef = useRef(null);
 
   useEffect(() => {
     // const fetch
     fetchMessagesContext(conversation?._id);
   }, [conversation]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [selectedConv]);
+
+  const scrollToBottom = () => {
+    if (messageContainerRef.current) {
+      const { scrollHeight, clientHeight } = messageContainerRef.current;
+      messageContainerRef.current.scrollTop = scrollHeight - clientHeight;
+    }
+  };
 
   return (
     <>
@@ -21,10 +33,10 @@ export default function MessageBox({ conversation }) {
               {conversation.sender.profileId.name}
             </div>
           </div>
-          <div className="grow overflow-y-scroll">
+          <div className="grow overflow-y-scroll" ref={messageContainerRef}>
             {selectedConv &&
               selectedConv.map((message) => (
-                <div className="py-3 hover:bg-slate-100">
+                <div key={message._id} className="py-3 hover:bg-slate-100">
                   {message.sender == conversation.sender._id ? (
                     <div className=" flex">
                       <div className="mx-4">
@@ -68,6 +80,7 @@ export default function MessageBox({ conversation }) {
           <div>
             <div className="w-90 max-h-48 h-auto border-2 p-4 flex">
               <textarea
+                value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 className="w-auto max-h-48 grow mr-2"
                 placeholder="type..."

@@ -22,7 +22,7 @@ export const fetchMessages = async (conversationId) => {
     );
 
     if (response.status == 204) {
-      return "No messages found!";
+      return [];
     }
     return response.data;
   } catch (error) {
